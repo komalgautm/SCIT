@@ -45,3 +45,5 @@ Route::get('/pending-request','RotaController@leave_pending');
 Route::get('/get_all_leave','RotaController@get_all_leave');
 Route::get('/employee','RotaController@employee_view');
 Route::post('/get_rota_employee','RotaController@get_rota_employee');
+Route::post('/get_all_shift','RotaController@get_all_shift');
+

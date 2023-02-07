@@ -68,6 +68,7 @@ class RotaController extends Controller
                     }
                 }
             }
+           
         }         
         $data['active_rota'] =  $arr;
         $data['old_rota'] =  $old; 
@@ -213,6 +214,7 @@ class RotaController extends Controller
             'rota_id' =>  $get_rota,
             'user_id' => 15,
             'shift_time' => "7",
+            'rota_day_date' => Carbon::parse($request->rota_shift_day_date)->format('Y-m-d'),
             'shift_start_time' => $request->start_date,
             'shift_end_time' => $request->end_date,
             'break' => $request->break_time,
@@ -458,14 +460,26 @@ class RotaController extends Controller
     }
 
     function get_rota_employee(Request $request){
-        $data['rota'] = DB::table('rota')
-            ->join('rota_assign_employees', 'rota_assign_employees.rota_id', '=', 'rota.id')
+        // $data['rota'] = DB::table('rota')
+        //     ->join('rota_assign_employees', 'rota_assign_employees.rota_id', '=', 'rota.id')
+        //     ->join('user', 'user.id', '=', 'rota_assign_employees.emp_id')
+        //     ->join('rota_shift', 'rota_shift.id', '=', 'rota.id')
+        //     ->select('user.id as user_id','user.name','rota_shift.id as rota_shift_id','rota_shift.break','rota_shift.shift_start_time','rota_shift.shift_end_time')
+        //     ->where('rota_shift.status', 1 )
+        //     ->where('rota_assign_employees.status', 1)
+        //     ->get();
+
+          $data['rota'] = DB::table('rota_assign_employees')
             ->join('user', 'user.id', '=', 'rota_assign_employees.emp_id')
-            ->join('rota_shift', 'rota_shift.id', '=', 'rota.id')
-            ->select('user.id as user_id','user.name','rota_shift.id as rota_shift_id','rota_shift.break','rota_shift.shift_start_time','rota_shift.shift_end_time')
-            ->where('rota_shift.status', 1 )
-            ->where('rota_assign_employees.status', 1)
+            ->join('rota_shift','rota_shift.rota_id','=', 'rota_assign_employees.rota_id')
+            ->select('rota_assign_employees.id as rota_assign_id','user.id as users_id','user.name','rota_shift.break','rota_shift.shift_start_time','rota_shift.shift_end_time')
+            ->where('rota_assign_employees.rota_id', $request->id)
             ->get();
+
         echo json_encode($data); 
+    }
+
+    function get_all_shift(Request $request){
+        
     }
 }

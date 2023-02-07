@@ -1,4 +1,3 @@
-<?php use DB; ?>
 <script>
   // Ignore this in your implementation
   window.isMbscDemo = true;
@@ -239,8 +238,23 @@
                                       </div>
                                     </div>
                                     <div class="d-flex">
-                                      <div class="pe-3">Total: 0 hrs 0 mins (Incl. breaks)</div>
-                                      <div class="order-1">{{ $rota_list_data->rota_duration }} days<span class="px-2"></span><span>0 employees</span>
+                                      <div class="pe-3">Total:<?php 
+                                         $rota_start_end_time = App\RotaShift::where('rota_id', $rota_list_data->id)->where('status', 1)->get();
+                                         $hours = 0; $minutes = 0;
+                                         foreach($rota_start_end_time as $rota_start_end_times){
+                                             $startTime = \Carbon\Carbon::parse($rota_start_end_times->shift_start_time);
+                                             $finishTime = \Carbon\Carbon::parse($rota_start_end_times->shift_end_time);
+                                             $duration = $finishTime->diff($startTime)->format('%H:%i:%s');
+                                             $totaltime = \Carbon\Carbon::parse($duration)->addMinutes($rota_start_end_times->break)->format('h:i:m');
+                                             $hours += \Carbon\Carbon::parse($totaltime)->format('h');
+                                             $minutes += \Carbon\Carbon::parse($totaltime)->format('i');
+                                         }
+                                         
+                                         $time = date('G:i', mktime($hours, $minutes));
+                                         echo $time;
+                                    ?> (Incl. breaks)</div>
+                                      <div class="order-1">{{ $rota_list_data->rota_duration }} days<span class="px-2"></span><span>
+                                        {{ \App\RotaAssignEmployee::where(['rota_id' => $rota_list_data->id, 'status'=> 1])->count() }} employees</span>
                                       </div>
                                     </div>
                                   </div>
@@ -316,8 +330,24 @@
                                   </div>
                                 </div>
                                 <div class="d-flex">
-                                  <div class="pe-3">Total: 0 hrs 0 mins (Incl. breaks)</div>
-                                  <div class="order-1">{{ $rota_list_data->rota_duration }} days<span class="px-2"></span><span>0 employees</span>
+                                  <div class="pe-3">Total:
+                                  <?php 
+                                         $rota_start_end_time = App\RotaShift::where('rota_id', $rota_list_data->id)->where('status', 1)->get();
+                                         $hours = 0; $minutes = 0;
+                                         foreach($rota_start_end_time as $rota_start_end_times){
+                                             $startTime = \Carbon\Carbon::parse($rota_start_end_times->shift_start_time);
+                                             $finishTime = \Carbon\Carbon::parse($rota_start_end_times->shift_end_time);
+                                             $duration = $finishTime->diff($startTime)->format('%H:%i:%s');
+                                             $totaltime = \Carbon\Carbon::parse($duration)->addMinutes($rota_start_end_times->break)->format('h:i:m');
+                                             $hours += \Carbon\Carbon::parse($totaltime)->format('h');
+                                             $minutes += \Carbon\Carbon::parse($totaltime)->format('i');
+                                         }
+                                         
+                                         $hour = date('G', mktime($hours, $minutes));
+                                         $minute = date('i', mktime($hours, $minutes));
+                                         echo $hour." hrs ".$minute." mins";
+                                    ?> (Incl. breaks)</div>
+                                  <div class="order-1">{{ $rota_list_data->rota_duration }} days<span class="px-2"></span><span>{{ \App\RotaAssignEmployee::where(['rota_id' => $rota_list_data->id, 'status'=> 1])->count() }} employees</span>
                                   </div>
                                 </div>
                               </div>
@@ -443,8 +473,23 @@
                                             <!-- Button trigger modal -->
                                       </div>
                                       <div class="d-flex">
-                                        <div class="pe-3">Total: 0 hrs 0 mins (Incl. breaks)</div>
-                                        <div class="order-1">{{ $rota_list_data->rota_duration }} days<span class="px-2"></span><span>0 employees</span>
+                                        <div class="pe-3">Total: <?php 
+                                         $rota_start_end_time = App\RotaShift::where('rota_id', $rota_list_data->id)->where('status', 1)->get();
+                                         $hours = 0; $minutes = 0;
+                                         foreach($rota_start_end_time as $rota_start_end_times){
+                                             $startTime = \Carbon\Carbon::parse($rota_start_end_times->shift_start_time);
+                                             $finishTime = \Carbon\Carbon::parse($rota_start_end_times->shift_end_time);
+                                             $duration = $finishTime->diff($startTime)->format('%H:%i:%s');
+                                             $totaltime = \Carbon\Carbon::parse($duration)->addMinutes($rota_start_end_times->break)->format('h:i:m');
+                                             $hours += \Carbon\Carbon::parse($totaltime)->format('h');
+                                             $minutes += \Carbon\Carbon::parse($totaltime)->format('i');
+                                         }
+                                         
+                                         $time = date('G:i', mktime($hours, $minutes));
+                                         echo $time;
+                                    ?>
+                                     (Incl. breaks)</div>
+                                        <div class="order-1">{{ $rota_list_data->rota_duration }} days<span class="px-2"></span><span>{{ \App\RotaAssignEmployee::where(['rota_id' => $rota_list_data->id, 'status'=> 1])->count() }} employees</span>
                                       </div>
                                     </div>
                                   </div>
@@ -518,8 +563,22 @@
                                     </div> 
                                   </div>
                                   <div class="d-flex">
-                                    <div class="pe-3">Total: 0 hrs 0 mins (Incl. breaks)</div>
-                                    <div class="order-1">7 days<span class="px-2"></span><span>0 employees</span>
+                                    <div class="pe-3">Total: <?php 
+                                         $rota_start_end_time = App\RotaShift::where('rota_id', $rota_list_data->id)->where('status', 1)->get();
+                                         $hours = 0; $minutes = 0;
+                                         foreach($rota_start_end_time as $rota_start_end_times){
+                                             $startTime = \Carbon\Carbon::parse($rota_start_end_times->shift_start_time);
+                                             $finishTime = \Carbon\Carbon::parse($rota_start_end_times->shift_end_time);
+                                             $duration = $finishTime->diff($startTime)->format('%H:%i:%s');
+                                             $totaltime = \Carbon\Carbon::parse($duration)->addMinutes($rota_start_end_times->break)->format('h:i:m');
+                                             $hours += \Carbon\Carbon::parse($totaltime)->format('h');
+                                             $minutes += \Carbon\Carbon::parse($totaltime)->format('i');
+                                         }
+                                         
+                                         $time = date('G:i', mktime($hours, $minutes));
+                                         echo $time;
+                                    ?> (Incl. breaks)</div>
+                                    <div class="order-1">7 days<span class="px-2"></span><span>{{ \App\RotaAssignEmployee::where(['rota_id' => $rota_list_data->id, 'status'=> 1])->count() }} employees</span>
                                   </div>
                                 </div>
                               </div>
@@ -916,6 +975,27 @@
               </form>
             </div>
           </div>
+          <div class="d-flex align-items-center shrink_all">
+            <div class="w_19 py-2" style="overflow-x: scroll; overflow-y: hidden;">Craig Birch</div>
+            <div class="w_19 py-2" style="overflow-x: scroll; overflow-y: hidden;">35 hrs</div>
+            <div class="w_19 py-2 ps-2">
+              <span class="d-flex">
+                <p class="ms-2 fw-bolder" style="color:#ad005c;">F</p>
+                <p class="ms-2 fw-bolder">S</p>
+                <p class="ms-2 fw-bolder">S</p>
+                <p class="ms-2 fw-bolder">M</p>
+                <p class="ms-2 fw-bolder">T</p>
+                <p class="ms-2 fw-bolder">W</p>
+                <p class="ms-2 fw-bolder">T</p>
+              </span>
+            </div>
+            <div class="w_19 py-2">
+              <div class="w_full">0 hrs</div>
+            </div>
+            <div class="w_19 py-2">
+              <div class="w_full">8 hrs</div>
+            </div>
+          </div>
         </div>
         <div class="w_full row_detail">
           <div class="d-flex align-items-center shrink_all">
@@ -1079,7 +1159,19 @@
     }
 
     function RotaView(id, name){
+
       var token = "<?=csrf_token()?>";
+      // $.ajax({
+      //         url:"{{ url('/get_all_shift') }}",    
+      //         type: "post",    
+      //         dataType: 'json',
+      //         data: {id: id, _token:token},
+      //         success:function(result){
+      //             console.log(result);   
+      //         }
+      //     });
+
+
       $.ajax({
               url:"{{ url('/get_rota_employee') }}",    
               type: "post",    
@@ -1093,6 +1185,4 @@
       $('#exampleModalViewDetail').modal('show');
 
     }
-    
-</script>
- 
+</script> 
