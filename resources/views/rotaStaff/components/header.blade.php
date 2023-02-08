@@ -76,13 +76,13 @@
                         <li>
                           <div class="d-flex align-items-center">
                             <svg width="30" height="30" class="svgColor" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" class="mr-4 fill-link-link"><path d="M22.775 16.837C23.55 15.262 24 13.55 24 11.999C24 7.58702 20.413 3.99902 16 3.99902C11.587 3.99902 8 7.58702 8 11.999C8 13.549 8.438 15.262 9.225 16.837C6.137 18.262 4 21.387 4 25C4 26.65 5.35 28 7 28H25C26.65 28 28 26.65 28 25C28 21.387 25.863 18.262 22.775 16.837ZM16 6.00002C19.313 6.00002 22 8.68802 22 12C22 13.713 21.288 15.762 20.137 17.363C18.937 19.038 17.425 20 16 20C14.575 20 13.062 19.038 11.863 17.363C10.713 15.763 10 13.713 10 12C10 8.68702 12.688 6.00002 16 6.00002ZM25 26H7C6.45 26 6 25.55 6 25C6 22.113 7.763 19.625 10.262 18.562C11.862 20.774 13.899 22 16 22C18.101 22 20.137 20.775 21.738 18.562C24.238 19.637 26 22.112 26 25C26 25.55 25.55 26 25 26Z"></path></svg>
-                            <a href="add-employees.html">Add employees</a>
+                            <a href="{{ url('/employee') }}">Add employees</a>
                           </div>
                         </li>
                         <li>
                           <div class="d-flex align-items-center">
                             <svg width="30" height="30" class="svgColor" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" class="mr-4 fill-link-link"><path d="M6.421 16.496C6.15 15.635 6 14.773 6 14C6 10.692 8.692 8 12 8C13.069 8 14.073 8.283 14.944 8.775C16.011 7.108 17.878 6 20 6C23.308 6 26 8.692 26 12C26 12.773 25.85 13.635 25.579 14.496C28.166 15.525 30 18.051 30 21C30 22.654 28.654 24 27 24H21.828C21.415 25.164 20.304 26 19 26H5C3.346 26 2 24.654 2 23C2 20.051 3.834 17.525 6.421 16.496V16.496ZM8 14C8 16.479 10.069 20 12 20C13.931 20 16 16.479 16 14C16 11.794 14.206 10 12 10C9.794 10 8 11.794 8 14ZM20 8C18.502 8 17.195 8.828 16.51 10.05C17.436 11.106 18 12.488 18 14C18 14.773 17.85 15.635 17.579 16.496C18.45 16.842 19.236 17.357 19.894 18.002C19.928 18.001 19.963 18 20 18C21.931 18 24 14.479 24 12C24 9.794 22.206 8 20 8ZM28 21C28 18.88 26.673 17.066 24.806 16.34C24.672 16.593 24.529 16.84 24.376 17.077C23.473 18.479 22.381 19.408 21.22 19.794C21.571 20.472 21.815 21.216 21.927 22H27C27.551 22 28 21.551 28 21V21ZM5 24H19C19.551 24 20 23.551 20 23C20 20.88 18.673 19.066 16.806 18.34C16.672 18.593 16.529 18.84 16.376 19.077C15.162 20.962 13.608 22 12 22C10.392 22 8.838 20.962 7.624 19.077C7.471 18.84 7.328 18.592 7.194 18.34C5.327 19.066 4 20.88 4 23C4 23.551 4.449 24 5 24Z"></path></svg>
-                            <a href="manage-teams.html">Manage teams</a>
+                            <a href="{{ url('/employee') }}">Manage teams</a>
                           </div>
                         </li>
                       </ul>
@@ -91,8 +91,8 @@
                   <div class="scroll">
                     <li><a href="{{ url('/rota-dashboard') }}" class="<?php if($sidebar === "dashborad") echo "active"; ?>"><i class="fa fa-home" ></i>Home</a></li>
                     <li><a href="{{ url('/calender') }}" class="<?php if($sidebar === "calender") echo "active"; ?>" ><i class="fa fa-calendar-check-o"></i>Calendar</a></li>
-                    <li><a href="{{ url('/employee') }}" class=""><i class="fa fa-users"></i>Employees</a></li>
-                    <li><a href="{{ url('/rota') }}" class="<?php if($sidebar === "employee") echo "active"; ?>" ><i class="fa fa-id-card"></i>Rotas</a></li>
+                    <li><a href="{{ url('/employee') }}" class="<?php if($sidebar === "employee") echo "active"; ?>"><i class="fa fa-users"></i>Employees</a></li>
+                    <li><a href="{{ url('/rota') }}" class="<?php if($sidebar === "rota") echo "active"; ?>" ><i class="fa fa-id-card"></i>Rotas</a></li>
                     <li><a href="{{ url('/employee') }}" class="" ><i class="fa fa-user" aria-hidden="true"></i>Add employees</a></li>
                     <li><a href="add-sickness.html" class=""><i class="fa fa-medkit" aria-hidden="true"></i>Add sickness</a></li>
                     <li><a href="annual-leave.html" class=""><i class="fa fa-clock-o" aria-hidden="true"></i>Annual leave</a></li>

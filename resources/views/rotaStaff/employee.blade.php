@@ -31,6 +31,9 @@
                                                                     <button type="button" class="add-mult-employe">Add
                                                                         multiple employees</button>
                                                                 </div>
+
+
+
                                                                 <div class="container remove-padding M-right"
                                                                     id="multiForm" style="display: none;">
                                                                     <div class="row">
@@ -1090,248 +1093,35 @@
                                                                             </div>
                                                                             <div class="beefup__body">
                                                                                 <div class="mockup mockup-sm row my-3">
-                                                                                    <div class="col-md-4">
-                                                                                        <div class="card flex-row">
-                                                                                            <div class="link">
-                                                                                                <a href="#">WA</a>
-                                                                                            </div>
-                                                                                            <div
-                                                                                                class="profile-detail d-flex flex-column justify-content-center">
-                                                                                                <p class="name">William
-                                                                                                    Atkins</p>
-                                                                                                <div class="">
-                                                                                                    <a href="#">View
-                                                                                                        full profile</a>
+                                                                                    @foreach($user as $users)
+                                                                                        <div class="col-md-4">
+                                                                                            <div class="card flex-row">
+                                                                                                <div class="link">
+                                                                                                    <a href="#">
+                                                                                                    <?php 
+                                                                                                        $str = str_split($users->name); echo strtoupper($str[0]); 
+                                                                                                        $whatIWant = substr($users->name, strpos($users->name, " ") + 1);    
+                                                                                                        $str1 =  str_split($whatIWant); echo strtoupper($str1[0]);
+                                                                                                    ?>
+                                                                                                    </a>
+                                                                                                </div>
+                                                                                                <div
+                                                                                                    class="profile-detail d-flex flex-column justify-content-center">
+                                                                                                    <p class="name">{{ $users->name }}</p>
+                                                                                                    <div class="">
+                                                                                                        <a href="#">View
+                                                                                                            full profile</a>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div
+                                                                                                    class="eye-link d-flex align-items-center">
+                                                                                                    <a href="#"><i
+                                                                                                            class="fa fa-eye"
+                                                                                                            aria-hidden="true"></i></a>
                                                                                                 </div>
                                                                                             </div>
-                                                                                            <div
-                                                                                                class="eye-link d-flex align-items-center">
-                                                                                                <a href="#"><i
-                                                                                                        class="fa fa-eye"
-                                                                                                        aria-hidden="true"></i></a>
-                                                                                            </div>
                                                                                         </div>
-                                                                                    </div>
-                                                                                    <div class="col-md-4">
-                                                                                        <div class="card flex-row">
-                                                                                            <div class="link">
-                                                                                                <a href="#">WA</a>
-                                                                                            </div>
-                                                                                            <div
-                                                                                                class="profile-detail d-flex flex-column justify-content-center">
-                                                                                                <p class="name">William
-                                                                                                    Atkins</p>
-                                                                                                <div class="">
-                                                                                                    <a href="#">View
-                                                                                                        full profile</a>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            <div
-                                                                                                class="eye-link d-flex align-items-center">
-                                                                                                <a href="#"><i
-                                                                                                        class="fa fa-eye"
-                                                                                                        aria-hidden="true"></i></a>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="col-md-4">
-                                                                                        <div class="card flex-row">
-                                                                                            <div class="link">
-                                                                                                <a href="#">WA</a>
-                                                                                            </div>
-                                                                                            <div
-                                                                                                class="profile-detail d-flex flex-column justify-content-center">
-                                                                                                <p class="name">William
-                                                                                                    Atkins</p>
-                                                                                                <div class="">
-                                                                                                    <a href="#">View
-                                                                                                        full profile</a>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            <div
-                                                                                                class="eye-link d-flex align-items-center">
-                                                                                                <a href="#"><i
-                                                                                                        class="fa fa-eye"
-                                                                                                        aria-hidden="true"></i></a>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="col-md-4">
-                                                                                        <div class="card flex-row">
-                                                                                            <div class="link">
-                                                                                                <a href="#">WA</a>
-                                                                                            </div>
-                                                                                            <div
-                                                                                                class="profile-detail d-flex flex-column justify-content-center">
-                                                                                                <p class="name">William
-                                                                                                    Atkins</p>
-                                                                                                <div class="">
-                                                                                                    <a href="#">View
-                                                                                                        full profile</a>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            <div
-                                                                                                class="eye-link d-flex align-items-center">
-                                                                                                <a href="#"><i
-                                                                                                        class="fa fa-eye"
-                                                                                                        aria-hidden="true"></i></a>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="col-md-4">
-                                                                                        <div class="card flex-row">
-                                                                                            <div class="link">
-                                                                                                <a href="#">WA</a>
-                                                                                            </div>
-                                                                                            <div
-                                                                                                class="profile-detail d-flex flex-column justify-content-center">
-                                                                                                <p class="name">William
-                                                                                                    Atkins</p>
-                                                                                                <div class="">
-                                                                                                    <a href="#">View
-                                                                                                        full profile</a>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            <div
-                                                                                                class="eye-link d-flex align-items-center">
-                                                                                                <a href="#"><i
-                                                                                                        class="fa fa-eye"
-                                                                                                        aria-hidden="true"></i></a>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="col-md-4">
-                                                                                        <div class="card flex-row">
-                                                                                            <div class="link">
-                                                                                                <a href="#">WA</a>
-                                                                                            </div>
-                                                                                            <div
-                                                                                                class="profile-detail d-flex flex-column justify-content-center">
-                                                                                                <p class="name">William
-                                                                                                    Atkins</p>
-                                                                                                <div class="">
-                                                                                                    <a href="#">View
-                                                                                                        full profile</a>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            <div
-                                                                                                class="eye-link d-flex align-items-center">
-                                                                                                <a href="#"><i
-                                                                                                        class="fa fa-eye"
-                                                                                                        aria-hidden="true"></i></a>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="col-md-4">
-                                                                                        <div class="card flex-row">
-                                                                                            <div class="link">
-                                                                                                <a href="#">WA</a>
-                                                                                            </div>
-                                                                                            <div
-                                                                                                class="profile-detail d-flex flex-column justify-content-center">
-                                                                                                <p class="name">William
-                                                                                                    Atkins</p>
-                                                                                                <div class="">
-                                                                                                    <a href="#">View
-                                                                                                        full profile</a>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            <div
-                                                                                                class="eye-link d-flex align-items-center">
-                                                                                                <a href="#"><i
-                                                                                                        class="fa fa-eye"
-                                                                                                        aria-hidden="true"></i></a>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="col-md-4">
-                                                                                        <div class="card flex-row">
-                                                                                            <div class="link">
-                                                                                                <a href="#">WA</a>
-                                                                                            </div>
-                                                                                            <div
-                                                                                                class="profile-detail d-flex flex-column justify-content-center">
-                                                                                                <p class="name">William
-                                                                                                    Atkins</p>
-                                                                                                <div class="">
-                                                                                                    <a href="#">View
-                                                                                                        full profile</a>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            <div
-                                                                                                class="eye-link d-flex align-items-center">
-                                                                                                <a href="#"><i
-                                                                                                        class="fa fa-eye"
-                                                                                                        aria-hidden="true"></i></a>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="col-md-4">
-                                                                                        <div class="card flex-row">
-                                                                                            <div class="link">
-                                                                                                <a href="#">WA</a>
-                                                                                            </div>
-                                                                                            <div
-                                                                                                class="profile-detail d-flex flex-column justify-content-center">
-                                                                                                <p class="name">William
-                                                                                                    Atkins</p>
-                                                                                                <div class="">
-                                                                                                    <a href="#">View
-                                                                                                        full profile</a>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            <div
-                                                                                                class="eye-link d-flex align-items-center">
-                                                                                                <a href="#"><i
-                                                                                                        class="fa fa-eye"
-                                                                                                        aria-hidden="true"></i></a>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="col-md-4">
-                                                                                        <div class="card flex-row">
-                                                                                            <div class="link">
-                                                                                                <a href="#">WA</a>
-                                                                                            </div>
-                                                                                            <div
-                                                                                                class="profile-detail d-flex flex-column justify-content-center">
-                                                                                                <p class="name">William
-                                                                                                    Atkins</p>
-                                                                                                <div class="">
-                                                                                                    <a href="#">View
-                                                                                                        full profile</a>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            <div
-                                                                                                class="eye-link d-flex align-items-center">
-                                                                                                <a href="#"><i
-                                                                                                        class="fa fa-eye"
-                                                                                                        aria-hidden="true"></i></a>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="col-md-4">
-                                                                                        <div class="card flex-row">
-                                                                                            <div class="link">
-                                                                                                <a href="#">WA</a>
-                                                                                            </div>
-                                                                                            <div
-                                                                                                class="profile-detail d-flex flex-column justify-content-center">
-                                                                                                <p class="name">William
-                                                                                                    Atkins</p>
-                                                                                                <div class="">
-                                                                                                    <a href="#">View
-                                                                                                        full profile</a>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            <div
-                                                                                                class="eye-link d-flex align-items-center">
-                                                                                                <a href="#"><i
-                                                                                                        class="fa fa-eye"
-                                                                                                        aria-hidden="true"></i></a>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
+                                                                                    @endforeach
                                                                                 </div>
                                                                             </div>
                                                                         </article>
@@ -1489,21 +1279,14 @@
                                                                 </div>
                                                             </div>
                                                             <div class="row my-4">
-                                                            @foreach($user as $users)
                                                                 <div class="col-md-4">
                                                                     <div class="card flex-row cards">
                                                                         <div class="name">
-                                                                            <p class="name-text">
-                                                                            <?php 
-                                                                                $str = str_split($users->name); echo strtoupper($str[0]); 
-                                                                                $whatIWant = substr($users->name, strpos($users->name, " ") + 1);    
-                                                                                $str1 =  str_split($whatIWant); echo strtoupper($str1[0]);
-                                                                            ?>
-                                                                            </p>
+                                                                            <p class="name-text">T</p>
                                                                         </div>
                                                                         <div
                                                                             class="d-flex flex-column justify-content-center team-name">
-                                                                            <p class="fname">{{ $users->name }}</p>
+                                                                            <p class="fname">test</p>
                                                                             <p class="no-of-emb">0 members</p>
                                                                         </div>
                                                                         <div class="icons">
@@ -1514,7 +1297,169 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                @endforeach
+                                                                <div class="col-md-4">
+                                                                    <div class="card flex-row cards">
+                                                                        <div class="name">
+                                                                            <p class="name-text">T</p>
+                                                                        </div>
+                                                                        <div
+                                                                            class="d-flex flex-column justify-content-center team-name">
+                                                                            <p class="fname">test</p>
+                                                                            <p class="no-of-emb">0 members</p>
+                                                                        </div>
+                                                                        <div class="icons">
+                                                                            <p class="edit-icon"><i class="fa fa-pencil"
+                                                                                    aria-hidden="true"></i></p>
+                                                                            <p class="delet-icon"><i class="fa fa-trash"
+                                                                                    aria-hidden="true"></i></p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="card flex-row cards">
+                                                                        <div class="name">
+                                                                            <p class="name-text">T</p>
+                                                                        </div>
+                                                                        <div
+                                                                            class="d-flex flex-column justify-content-center team-name">
+                                                                            <p class="fname">test</p>
+                                                                            <p class="no-of-emb">0 members</p>
+                                                                        </div>
+                                                                        <div class="icons">
+                                                                            <p class="edit-icon"><i class="fa fa-pencil"
+                                                                                    aria-hidden="true"></i></p>
+                                                                            <p class="delet-icon"><i class="fa fa-trash"
+                                                                                    aria-hidden="true"></i></p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="card flex-row cards">
+                                                                        <div class="name">
+                                                                            <p class="name-text">T</p>
+                                                                        </div>
+                                                                        <div
+                                                                            class="d-flex flex-column justify-content-center team-name">
+                                                                            <p class="fname">test</p>
+                                                                            <p class="no-of-emb">0 members</p>
+                                                                        </div>
+                                                                        <div class="icons">
+                                                                            <p class="edit-icon"><i class="fa fa-pencil"
+                                                                                    aria-hidden="true"></i></p>
+                                                                            <p class="delet-icon"><i class="fa fa-trash"
+                                                                                    aria-hidden="true"></i></p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="card flex-row cards">
+                                                                        <div class="name">
+                                                                            <p class="name-text">T</p>
+                                                                        </div>
+                                                                        <div
+                                                                            class="d-flex flex-column justify-content-center team-name">
+                                                                            <p class="fname">test</p>
+                                                                            <p class="no-of-emb">0 members</p>
+                                                                        </div>
+                                                                        <div class="icons">
+                                                                            <p class="edit-icon"><i class="fa fa-pencil"
+                                                                                    aria-hidden="true"></i></p>
+                                                                            <p class="delet-icon"><i class="fa fa-trash"
+                                                                                    aria-hidden="true"></i></p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="card flex-row cards">
+                                                                        <div class="name">
+                                                                            <p class="name-text">T</p>
+                                                                        </div>
+                                                                        <div
+                                                                            class="d-flex flex-column justify-content-center team-name">
+                                                                            <p class="fname">test</p>
+                                                                            <p class="no-of-emb">0 members</p>
+                                                                        </div>
+                                                                        <div class="icons">
+                                                                            <p class="edit-icon"><i class="fa fa-pencil"
+                                                                                    aria-hidden="true"></i></p>
+                                                                            <p class="delet-icon"><i class="fa fa-trash"
+                                                                                    aria-hidden="true"></i></p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-md-4">
+                                                                    <div class="card flex-row cards">
+                                                                        <div class="name">
+                                                                            <p class="name-text">T</p>
+                                                                        </div>
+                                                                        <div
+                                                                            class="d-flex flex-column justify-content-center team-name">
+                                                                            <p class="fname">test</p>
+                                                                            <p class="no-of-emb">0 members</p>
+                                                                        </div>
+                                                                        <div class="icons">
+                                                                            <p class="edit-icon"><i class="fa fa-pencil"
+                                                                                    aria-hidden="true"></i></p>
+                                                                            <p class="delet-icon"><i class="fa fa-trash"
+                                                                                    aria-hidden="true"></i></p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="card flex-row cards">
+                                                                        <div class="name">
+                                                                            <p class="name-text">T</p>
+                                                                        </div>
+                                                                        <div
+                                                                            class="d-flex flex-column justify-content-center team-name">
+                                                                            <p class="fname">test</p>
+                                                                            <p class="no-of-emb">0 members</p>
+                                                                        </div>
+                                                                        <div class="icons">
+                                                                            <p class="edit-icon"><i class="fa fa-pencil"
+                                                                                    aria-hidden="true"></i></p>
+                                                                            <p class="delet-icon"><i class="fa fa-trash"
+                                                                                    aria-hidden="true"></i></p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="card flex-row cards">
+                                                                        <div class="name">
+                                                                            <p class="name-text">T</p>
+                                                                        </div>
+                                                                        <div
+                                                                            class="d-flex flex-column justify-content-center team-name">
+                                                                            <p class="fname">test</p>
+                                                                            <p class="no-of-emb">0 members</p>
+                                                                        </div>
+                                                                        <div class="icons">
+                                                                            <p class="edit-icon"><i class="fa fa-pencil"
+                                                                                    aria-hidden="true"></i></p>
+                                                                            <p class="delet-icon"><i class="fa fa-trash"
+                                                                                    aria-hidden="true"></i></p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="card flex-row cards">
+                                                                        <div class="name">
+                                                                            <p class="name-text">T</p>
+                                                                        </div>
+                                                                        <div
+                                                                            class="d-flex flex-column justify-content-center team-name">
+                                                                            <p class="fname">test</p>
+                                                                            <p class="no-of-emb">0 members</p>
+                                                                        </div>
+                                                                        <div class="icons">
+                                                                            <p class="edit-icon"><i class="fa fa-pencil"
+                                                                                    aria-hidden="true"></i></p>
+                                                                            <p class="delet-icon"><i class="fa fa-trash"
+                                                                                    aria-hidden="true"></i></p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1531,85 +1476,4 @@
             </div>
         </div>
     </section>
-    <script>
-        // Open single
-        $('.example-opensingle').beefup({
-            openSingle: true,
-            stayOpen: 'last'
-        });
-    </script>
-    <script>
-        function rotate() {
-            document.getElementById('rotateIcon').style.transform = rotate('180deg');
-        }
-    </script>
-    <script>
-        function next(id) {
-            let bg = document.getElementById('bg' + id.count)
-            let currentForm = document.getElementById(id.form + id.count);
-            let nextForm = document.getElementById(id.form + parseInt((id.count + 1)));
-            setTimeout(() => {
-                currentForm.style.display = 'none';
-                nextForm.style.display = 'block';
-                bg.style = 'none';
-            }, 200);
-        }
-
-        function back(id) {
-            let bg = document.getElementById('bg' + parseInt(id.count - 1))
-            let currentForm = document.getElementById(id.form + id.count);
-            let prevForm = document.getElementById(id.form + parseInt((id.count - 1)));
-            setTimeout(() => {
-                currentForm.style.display = 'none';
-                prevForm.style.display = 'block';
-                bg.style.color = '#999';
-                bg.style.backgroundColor = '#fff';
-            }, 200);
-        }
-
-    </script>
-    <script>
-        function hide() {
-            var modal_one = document.getElementById('show');
-            var modal_two = document.getElementById('hide');
-            if (modal_two.style.display === "none") {
-                modal_two.style.display = "block";
-                modal_one.style.display = "none";
-            } else {
-                modal_two.style.display = "none";
-                modal_one.style.display = "block";
-            }
-        }
-        function back_Modal() {
-            var modal_one = document.getElementById('show');
-            var modal_two = document.getElementById('hide');
-            if (modal_two.style.display === "block") {
-                modal_two.style.display = "none";
-                modal_one.style.display = "block";
-            } else {
-                modal_two.style.display = "none";
-                modal_one.style.display = "block";
-            }
-        }
-        function multiEmployees() {
-            var formstep = document.getElementById('multiForm');
-            var canclestep = document.getElementById('multiEmployee');
-            if (formstep.style.display === "none") {
-                formstep.style.display = "block";
-                canclestep.style.display = "none";
-            } else {
-                formstep.style.display = "none";
-                canclestep.style.display = "block";
-            }
-        }
-
-        function closeMultiEmployee() {
-            var formstep = document.getElementById('multiForm');
-            var canclestep = document.getElementById('multiEmployee');
-            if (formstep.style.display === "block") {
-                formstep.style.display = "none";
-                canclestep.style.display = "block";
-            }
-        }
-    </script>
-    
+    @include('rotaStaff.components.footer')

@@ -13,6 +13,7 @@
                                             All Rota</span> </a>  {{ $rota_data->rota_name }} </p>
                                         <h3>{{ $rota_data->rota_name }}</h3>
                                     </div>
+                                    <input type="hidden" value="{{ $rota_data->id }}" id="new_rota">
                                     <div class="d-flex justify-content-between">
                                         <div class="date-info">
                                         <p>  {{ date("D j M", strtotime($rota_data->rota_start_date)) }} - {{ date("D j M", strtotime($rota_data->rota_end_date)) }} | {{ $rota_data->rota_duration }} days | <span id="shift_count1"></span> staff members</p>
@@ -72,7 +73,12 @@
                                                     <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                           <h1 class="modal-title fs-5" id="exampleModalLabel">Are you sure you want to publish this rota?</h1>
+                                                           <h1 class="modal-title fs-5" id="exampleModalLabel">Are you sure you want to    @if($rota_data->status === 1)
+                                                                    Publish
+                                                                @endif
+                                                                @if($rota_data->status === 0)
+                                                                    Unpublish
+                                                                @endif this rota?</h1>
                                                             <button type="button" class="modal_close_btn" data-bs-dismiss="modal" aria-label="Close"> &#10006; </button>
                                                         </div>
                                                         <div class="modal-body">
@@ -568,7 +574,6 @@
             if(text == 'save-btn'){
                 var start_time = $("#start_time").val(); 
                 var end_time = $("#end_time").val();
-                
                 document.getElementById('shift_time_show').innerHTML =  start_time+'-'+end_time;
                 document.getElementById('show_shift_time').innerHTML =  start_time+'-'+end_time;
             }
@@ -628,6 +633,7 @@
                 });
             $(".w_full").hide();
             $('#next4').on('click', function(){
+                var rota_id =$('#new_rota').val();
                 var rota_shift_day_date = $('#rota_shift_day_date').val();
                 var start_date = $("#start_time").val(); 
                 var end_date = $("#end_time").val(); 
@@ -650,7 +656,7 @@
                         url:"{{ url('/assign_rota_users') }}",    
                         type: "post",    
                         dataType: 'json',
-                        data: {user_ids: user_ids, rota_shift_day_date: rota_shift_day_date, start_date: start_date, end_date: end_date, break_time: break_time, shift_notes: shift_notes, edit_rota_id: edit_rota_id, _token:token},
+                        data: {rota_id:rota_id, user_ids: user_ids, rota_shift_day_date: rota_shift_day_date, start_date: start_date, end_date: end_date, break_time: break_time, shift_notes: shift_notes, edit_rota_id: edit_rota_id, _token:token},
                         success:function(result){
                             console.log(result.rotaShift);
                             console.log(result.user_name);
@@ -768,7 +774,7 @@
                     data: {rota_id: rota_id, rota_status: rota_status, _token:token},
                     success:function(result){
                         console.log(result);
-                        // location.reload();
+                        location.reload();
                     }
                 });
             });

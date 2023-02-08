@@ -108,24 +108,31 @@ class RotaController extends Controller
             'updated_at'=>date("Y-m-d H:i:s")
         );
         $rota = Rota::insert($rota_data);
-        $latestRotaId = Rota::latest()->first();
-        Session::put('rota_flow_id', $latestRotaId->id);  
-        return redirect('/rota-planner')->with('shift_view', $request->rota_view, 'last_rota_id');  
+        return redirect('/rota-planner');  
     }
 
     public function rota_calender_view(){
         $data['user'] = User::where('home_id',1)->get();
         $data['sidebar'] = 'rota';
-        $latestUser = Rota::latest()->first();
-        $data['rota'] = Rota::where('id', $latestUser->id)->get();
-        if(session()->get('shift_view') == 1){
+        $data['rota'] =   Rota::where('deleted_status', 1)
+                ->orderBy('id','DESC')
+                ->take(1)->get();
+        $rota =   Rota::where('deleted_status', 1)
+                ->orderBy('id','DESC')
+                ->take(1)->get();
+        foreach($rota as $rotaView){
+           $rota_view_id =  $rotaView->rota_view;
+        }
+        if($rota_view_id == 1){
             return view('rotaStaff.rota_table', $data);
         }
-        if(session()->get('shift_view') == 2){
+        if($rota_view_id == 2){
             return view('rotaStaff.rota_timeline', $data);
         }
-        if(session()->get('shift_view') == 3){
+        if($rota_view_id == 3){
             echo "3";
+        }else{
+            return redirect('/rota');
         }
     }
 
@@ -203,9 +210,9 @@ class RotaController extends Controller
     }
 
     public function assign_rota_users(Request $request){
-        $rota = Session::get('rota_flow_id');
+        $rota = $request->rota_id;
         if(isset($rota)){
-            $get_rota = Session::get('rota_flow_id');
+            $get_rota =  $request->rota_id;
         } else {
             $get_rota =  $request->edit_rota_id;
         }
@@ -333,13 +340,15 @@ class RotaController extends Controller
         foreach($rota as $rota_data){
            $view = $rota_data->rota_view;
         }
+
+
         $data['pass_rota_id'] = $id; 
         $data['rota'] = Rota::where('id', $id)->get();
         if($view == 1){
             return view('rotaStaff.rota_table', $data);
         }
         if($view == 2){
-            return view('rotaStaff.rota_timeline', $data);
+            return view('rotaStaff.edit_rota_timeline', $data);
         }
         if($view == 3){
             echo "3";
@@ -469,17 +478,19 @@ class RotaController extends Controller
         //     ->where('rota_assign_employees.status', 1)
         //     ->get();
 
-          $data['rota'] = DB::table('rota_assign_employees')
+          $rota = DB::table('rota')
+            ->join('rota_assign_employees', 'rota_assign_employees.rota_id', '=', 'rota.id')
             ->join('user', 'user.id', '=', 'rota_assign_employees.emp_id')
             ->join('rota_shift','rota_shift.rota_id','=', 'rota_assign_employees.rota_id')
-            ->select('rota_assign_employees.id as rota_assign_id','user.id as users_id','user.name','rota_shift.break','rota_shift.shift_start_time','rota_shift.shift_end_time')
-            ->where('rota_assign_employees.rota_id', $request->id)
+            ->select('rota.id','rota.rota_start_date','rota.rota_end_date','rota_assign_employees.id as rota_assign_id','user.id as users_id','user.name','rota_shift.break','rota_shift.shift_start_time','rota_shift.shift_end_time')
+            ->where('rota.id', $request->id)
             ->get();
-
-        echo json_encode($data); 
+        echo json_encode($rota); 
     }
 
     function get_all_shift(Request $request){
-        
+        $data = Rota::where('id', $request->id)->pluck('rota_start_date');
+        $data = \Carbon\Carbon::parse($data[0])->format('d/m/Y');
+        echo json_encode($data);
     }
 }

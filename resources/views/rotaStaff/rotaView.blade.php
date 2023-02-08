@@ -199,7 +199,7 @@
                                   <div class="col-md-10 px-2">
                                     <div class="d-flex justify-content-between align-items-center">
                                       <div>
-                                        <a href="./timeline-view.html" class="rota_shift_employee_name">{{ $rota_list_data->rota_name }}</a>
+                                        <a href="{{ url('/edit_rota/'.$rota_list_data->id ) }}" class="rota_shift_employee_name">{{ $rota_list_data->rota_name }}</a>
                                       </div>
                                       <div class="dropdown">
                                         <button class=" my-2 d-flex justify-content-center align-items-center three_dot_btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -238,7 +238,7 @@
                                       </div>
                                     </div>
                                     <div class="d-flex">
-                                      <div class="pe-3">Total:<?php 
+                                      <div class="pe-3">Total:  <?php 
                                          $rota_start_end_time = App\RotaShift::where('rota_id', $rota_list_data->id)->where('status', 1)->get();
                                          $hours = 0; $minutes = 0;
                                          foreach($rota_start_end_time as $rota_start_end_times){
@@ -250,8 +250,9 @@
                                              $minutes += \Carbon\Carbon::parse($totaltime)->format('i');
                                          }
                                          
-                                         $time = date('G:i', mktime($hours, $minutes));
-                                         echo $time;
+                                         $time_hour = date('G', mktime($hours, $minutes));
+                                         $time_min = date('i', mktime($hours, $minutes));
+                                         echo $time_hour ." hrs ". $time_min. " mins";
                                     ?> (Incl. breaks)</div>
                                       <div class="order-1">{{ $rota_list_data->rota_duration }} days<span class="px-2"></span><span>
                                         {{ \App\RotaAssignEmployee::where(['rota_id' => $rota_list_data->id, 'status'=> 1])->count() }} employees</span>
@@ -291,7 +292,7 @@
                               <div class="col-md-10 px-2">
                                 <div class="d-flex justify-content-between align-items-center">
                                   <div>
-                                    <a href="./timeline-view.html" class="rota_shift_employee_name">{{ $rota_list_data->rota_name }}</a>
+                                    <a href="{{ url('/edit_rota/'.$rota_list_data->id ) }}" class="rota_shift_employee_name">{{ $rota_list_data->rota_name }}</a>
                                   </div>
                                   <div class="dropdown">
                                     <button class=" my-2 d-flex justify-content-center align-items-center three_dot_btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -323,7 +324,7 @@
                                           </li>
                                           <li>
                                             <span class="delete-icon dropdown_icon"><i class="fa fa-trash-o" aria-hidden="true"></i></span>
-                                            <a href="#" class="delete_btn">Delete</a>
+                                            <a onclick="DeleteRotaEmployee(<?=$rota_list_data->id?>,'<?=$rota_list_data->rota_name?>')" class="delete_btn">Delete</a>
                                           </li>
                                       </ul>
                                     </div>
@@ -465,7 +466,7 @@
                                                 </li>
                                                 <li>
                                                   <span class="delete-icon dropdown_icon"><i class="fa fa-trash-o" aria-hidden="true"></i></span>
-                                                  <a href="#" class="delete_btn">Delete</a>
+                                                  <a onclick="DeleteRotaEmployee(<?=$rota_list_data->id?>,'<?=$rota_list_data->rota_name?>')" class="delete_btn">Delete</a>
                                                 </li>
                                               </ul>
                                           </div>
@@ -524,7 +525,7 @@
                                 <div class="col-md-10 px-2">
                                   <div class="d-flex justify-content-between align-items-center">
                                     <div>
-                                      <a href="./timeline-view.html" class="rota_shift_employee_name">{{ $rota_list_data->rota_name }}</a>
+                                      <a href="{{ url('/edit_rota/'.$rota_list_data->id ) }}" class="rota_shift_employee_name">{{ $rota_list_data->rota_name }}</a>
                                     </div>
                                     <div class="dropdown">
                                       <button class=" my-2 d-flex justify-content-center align-items-center three_dot_btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -556,7 +557,7 @@
                                             </li>
                                             <li>
                                               <span class="delete-icon dropdown_icon"><i class="fa fa-trash-o" aria-hidden="true"></i></span>
-                                              <a href="#" class="delete_btn">Delete</a>
+                                              <a onclick="DeleteRotaEmployee(<?=$rota_list_data->id?>,'<?=$rota_list_data->rota_name?>')" class="delete_btn">Delete</a>
                                             </li>
                                           </ul>
                                       </div>
@@ -945,8 +946,7 @@
         <div class="d-flex align-items-center">
           <span class="me-3">Select Week</span>
           <div class="col-md-3 col-lg-3 me-3">
-            <select name="" class="form-select form-control" id="">
-              <option value="">Week 1 - 27/01/2023</option>
+            <select name="" class="form-select form-control" id="rota_starting_date">
             </select>
           </div>
           <span>Week total our: <strong>8 hrs (Incl. breaks)</strong></span>
@@ -975,53 +975,12 @@
               </form>
             </div>
           </div>
-          <div class="d-flex align-items-center shrink_all">
-            <div class="w_19 py-2" style="overflow-x: scroll; overflow-y: hidden;">Craig Birch</div>
-            <div class="w_19 py-2" style="overflow-x: scroll; overflow-y: hidden;">35 hrs</div>
-            <div class="w_19 py-2 ps-2">
-              <span class="d-flex">
-                <p class="ms-2 fw-bolder" style="color:#ad005c;">F</p>
-                <p class="ms-2 fw-bolder">S</p>
-                <p class="ms-2 fw-bolder">S</p>
-                <p class="ms-2 fw-bolder">M</p>
-                <p class="ms-2 fw-bolder">T</p>
-                <p class="ms-2 fw-bolder">W</p>
-                <p class="ms-2 fw-bolder">T</p>
-              </span>
-            </div>
-            <div class="w_19 py-2">
-              <div class="w_full">0 hrs</div>
-            </div>
-            <div class="w_19 py-2">
-              <div class="w_full">8 hrs</div>
-            </div>
-          </div>
+     
         </div>
-        <div class="w_full row_detail">
-          <div class="d-flex align-items-center shrink_all">
-            <div class="w_19 py-2" style="overflow-x: scroll; overflow-y: hidden;">Craig Birch</div>
-            <div class="w_19 py-2" style="overflow-x: scroll; overflow-y: hidden;">35 hrs</div>
-            <div class="w_19 py-2 ps-2">
-              <span class="d-flex">
-                <p class="ms-2 fw-bolder" style="color:#ad005c;">F</p>
-                <p class="ms-2 fw-bolder">S</p>
-                <p class="ms-2 fw-bolder">S</p>
-                <p class="ms-2 fw-bolder">M</p>
-                <p class="ms-2 fw-bolder">T</p>
-                <p class="ms-2 fw-bolder">W</p>
-                <p class="ms-2 fw-bolder">T</p>
-              </span>
-            </div>
-            <div class="w_19 py-2">
-              <div class="w_full">0 hrs</div>
-            </div>
-            <div class="w_19 py-2">
-              <div class="w_full">8 hrs</div>
-            </div>
-          </div>
+        <div class="w_full row_detail" id="add_emp_record">
           <div class="d-flex align-items-center justify-content-end hour_count">
             <div class="w_19 m-0 py-3">
-              <p class="fw-bolder">17 hrs 2 mins</p>
+              <p class="fw-bolder" id="total_emp_hour"></p>
             </div>
           </div>
         </div>
@@ -1161,15 +1120,16 @@
     function RotaView(id, name){
 
       var token = "<?=csrf_token()?>";
-      // $.ajax({
-      //         url:"{{ url('/get_all_shift') }}",    
-      //         type: "post",    
-      //         dataType: 'json',
-      //         data: {id: id, _token:token},
-      //         success:function(result){
-      //             console.log(result);   
-      //         }
-      //     });
+      $.ajax({
+              url:"{{ url('/get_all_shift') }}",    
+              type: "post",    
+              dataType: 'json',
+              data: {id: id, _token:token},
+              success:function(result){
+                console.log(result); 
+                $('#rota_starting_date').append("<option>Week 1 - "+result+"</option>");  
+              }
+          });
 
 
       $.ajax({
@@ -1179,10 +1139,57 @@
               data: {id: id, _token:token},
               success:function(result){
                   console.log(result);   
+                  var total_emp_hours = 0;  var total_emp_minutes = 0;
+                  for (let index = 0; index < result.length; index++) {
+                    console.log(result[index].name);
+                    var startTime = moment(result[index].shift_start_time, 'HH:mm:ss');
+                    var endTime = moment(result[index].shift_end_time, 'HH:mm:ss');
+
+                    // calculate total duration
+                    var duration = moment.duration(endTime.diff(startTime));
+                    console.log(duration);
+                    // duration in hours
+                    var hours = parseInt(duration.asHours());
+                    var total_emp_hours = total_emp_hours + hours;
+                    // duration in minutes
+                    var minutes = parseInt(duration.asMinutes()) % 60;  
+
+                    total_emp_minutes = total_emp_minutes + minutes;
+
+                    var totalhour = hours + ' hour and ' + minutes + ' minutes.';
+                    document.querySelector('#add_emp_record').insertAdjacentHTML(
+                        'afterbegin',
+                            `<div class="d-flex align-items-center shrink_all">
+                              <div class="w_19 py-2" style="overflow-x: scroll; overflow-y: hidden;">`+result[index].name+`</div>
+                              <div class="w_19 py-2" style="overflow-x: scroll; overflow-y: hidden;">40 hrs</div>
+                              <div class="w_19 py-2 ps-2">
+                                <span class="d-flex">
+                                  <p class="ms-2 fw-bolder" style="color:#ad005c;">F</p>
+                                  <p class="ms-2 fw-bolder">S</p>
+                                  <p class="ms-2 fw-bolder">S</p>
+                                  <p class="ms-2 fw-bolder">M</p>
+                                  <p class="ms-2 fw-bolder">T</p>
+                                  <p class="ms-2 fw-bolder">W</p>
+                                  <p class="ms-2 fw-bolder">T</p>
+                                </span>
+                              </div>
+                              <div class="w_19 py-2">
+                                <div class="w_full">`+result[index].break+` min</div>
+                              </div>
+                              <div class="w_19 py-2">
+                                <div class="w_full">`+totalhour+`</div>
+                              </div>
+                            </div>`   
+                        );    
+                  }
+                  var total_duration = total_emp_hours + ' hour and ' + total_emp_minutes + ' minutes.';
+                  document.getElementById('total_emp_hour').innerHTML=  total_duration;
               }
           });
-
+         
       $('#exampleModalViewDetail').modal('show');
 
     }
+    // $('#break_check').click(function(){ alert("hello"); });
+
 </script> 

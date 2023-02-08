@@ -384,5 +384,70 @@ document
         showRangeLabels: true
     });
     </script>
-<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script> -->
+      <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script> -->
+        <script>
+             function formhide() {
+                var contentOne = document.getElementById('hide');
+                var contentTwo = document.getElementById('showFormContent');
+                var btn = document.getElementById('modalBtn');
+                if(contentTwo.style.display == "none") {
+                    contentTwo.style.display = "block";
+                    contentOne.style.display = "none";
+                    btn.style.display = "none";
+                }  
+             }
+
+             function hideform() {
+                var contentOne = document.getElementById('hide');
+                var contentTwo = document.getElementById('showFormContent');
+                var btn = document.getElementById('modalBtn');
+                if(contentTwo.style.display == "block") {
+                    contentTwo.style.display = "none";
+                    contentOne.style.display = "block";
+                    btn.style.display = "block";
+                }
+             }
+
+             function showForm() {
+                var show_form = document.getElementById('formShow');
+                var hideContent = document.getElementById('hide_content');
+                var modalBtn = document.getElementById('hideModalBtn'); 
+                if(show_form.style.display == "none") {
+                    show_form.style.display = "block";
+                    hideContent.style.display = "none";
+                    modalBtn.style.display = "none";
+                }
+             } 
+
+             function showContent() {
+                var show_Form = document.getElementById('formShow');
+                var hideContent = document.getElementById('hide_content');
+                var modalBtn = document.getElementById('hideModalBtn'); 
+                if(hideContent.style.display == "none") {
+                    hideContent.style.display = "block";
+                    show_Form.style.display = "none";
+                    modalBtn.style.display = "block";
+                } 
+             }
+
+             function showFormFive() {
+                var showForm = document.getElementById('show_form_five');
+                var hideButton = document.getElementById('hide_button');
+                if(showForm.style.display === "none") {
+                    showForm.style.display = "block";
+                    hideButton.style.display = "none";
+                }
+             }
+
+             function hideFormFive() {
+                var showForm = document.getElementById('show_form_five');
+                var hideButton = document.getElementById('hide_button');
+                if(hideButton.style.display == "none") {
+                    hideButton.style.display = "block";
+                    showForm.style.display = "none";
+                }
+             }
+        </script>
 </html>

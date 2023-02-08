@@ -221,7 +221,7 @@
         function dateValidate(){
             var start_date_input = document.getElementById('start_date_validate').value;
             var user_id = $('#user_id').val()
-            alert(user_id);
+            // alert(user_id);
             var token = "<?=csrf_token()?>";    
             $.ajax({
                 url:"{{ url('/date_validation_for_user') }}",    
@@ -246,9 +246,6 @@
             $('#hours_error').hide();
             document.getElementById('user_id').value = $('#starting_id').val(); 
             document.getElementById('add_fullname').value= document.querySelector('#full_name').innerHTML;
-          
-            
-
             var select = document.getElementById('leaveTypes_id');
             var text = select.options[select.selectedIndex].text;
             console.log(text);
