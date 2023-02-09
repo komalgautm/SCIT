@@ -140,7 +140,7 @@
   margin-top: 0px;
 }
 </style>
-            <!-- Top Bar Info Section End Here -->
+            <!-- Top Bar Info Section End Here -->  
             <div class="col-lg-9">
               <div class="row">
                 <div class="col-lg-12">

@@ -114,12 +114,8 @@ class RotaController extends Controller
     public function rota_calender_view(){
         $data['user'] = User::where('home_id',1)->get();
         $data['sidebar'] = 'rota';
-        $data['rota'] =   Rota::where('deleted_status', 1)
-                ->orderBy('id','DESC')
-                ->take(1)->get();
-        $rota =   Rota::where('deleted_status', 1)
-                ->orderBy('id','DESC')
-                ->take(1)->get();
+        $data['rota'] =   Rota::where('deleted_status', 1)->orderBy('id','DESC')->take(1)->get();
+        $rota =   Rota::where('deleted_status', 1)->orderBy('id','DESC')->take(1)->get();
         foreach($rota as $rotaView){
            $rota_view_id =  $rotaView->rota_view;
         }
@@ -492,5 +488,16 @@ class RotaController extends Controller
         $data = Rota::where('id', $request->id)->pluck('rota_start_date');
         $data = \Carbon\Carbon::parse($data[0])->format('d/m/Y');
         echo json_encode($data);
+    }
+
+    function edit_shift_data_get(Request $request ){
+         
+        $rota = DB::table('rota_shift')
+        ->join('rota_assign_employees', 'rota_assign_employees.shift_id', '=', 'rota_shift.id')
+        ->join()
+        ->select('')
+        ->where('rota.id', $request->id)
+        ->get();
+    echo json_encode($rota); 
     }
 }

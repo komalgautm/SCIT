@@ -473,7 +473,7 @@
                                                     <div class="row my-2">
                                                         <label for="assign_work" class="col-sm-3 col-form-label">Assigned worker</label>
                                                         <div class="col-sm-4">
-                                                            <select name="" id="" class="form-select form-control">
+                                                            <select name="" id="add_employess_for_edit" class="form-select form-control">
                                                                 <option value="person_name1">Jack</option>
                                                                 <option value="person_name2">Jack</option>
                                                                 <option value="person_name3">Jack</option>
@@ -550,7 +550,34 @@
  
     <script>
 
-        function view_user_data(){
+        function view_user_data(shift_id,user_id){
+            var token = "<?=csrf_token()?>";
+            var rota_id =$('#new_rota').val();
+            // alert(shift_id);
+            // alert(user_id);
+            $.ajax({
+                    url:"{{ url('/get-all-users') }}",    
+                    type: "get",    
+                    dataType: 'json',
+                    success:function(result){
+                        console.log(result);
+                        for(i = 1; i <= result.length; i++){
+                            console.log(result);
+                            $('add_employess_for_edit').append();
+                        }
+                    }
+                });
+            // $.ajax({
+            //         url:"{{ url('/edit_shift_data_get') }}",    
+            //         type: "post",    
+            //         dataType: 'text',
+            //         data: {rota_id: rota_id, user_id: user_id, shift_id: shift_id, _token:token},
+            //         success:function(result){
+            //             console.log(result);
+            //         }
+            //     });
+
+             
             $('#exampleModalShiftModal').modal('show'); 
         }
     
@@ -735,7 +762,7 @@
                                             <div class="hour_box" style="width: calc(4.16667%);">
                                             </div>
                                                     <!-- Button shift modal -->
-                                                    <button type="button" class="shift_timing_btn" onclick="view_user_data()"style="width: `+hours*4.16667+`%;  left: `+hours*4.16667+`%;" data-testid="Shift card">
+                                                    <button type="button" class="shift_timing_btn" onclick="view_user_data(`+result.rotaShift[0]['id']+`,`+result.user_name[i][0]['id']+`)"style="width: `+hours*4.16667+`%;  left: `+hours*4.16667+`%;" data-testid="Shift card">
                                                         <div class="d-flex align-items-center">
                                                             <div class="">
                                                                 <div class="name_of_member">
