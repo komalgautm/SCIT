@@ -46,29 +46,10 @@
                                 <div class="col-md-10 p-2">
                                   <div class="d-flex justify-content-between align-items-center">
                                     <div>
-                                      <a href="./timeline-view.html" class="rota_shift_employee_name"><h5>Komal Gautam</h5></a>
+                                      <a href="./timeline-view.html" class="rota_shift_employee_name">Komal Gautam</a>
                                     </div>
                                     <div>
-                                      <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" class="unapproved_btn my-2">Unapproved</button>
-                                      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog" style="max-width: 50vw;">
-                                            <div class="modal-content content-modal">
-                                                <div class="modal-header modal-head">
-                                                    <h5 class="modal-title" id="exampleModalLabel"><span>Are you sure you want to approve this leave?</span></h5>
-                                                    <button type="button" class=" close-btn" data-bs-dismiss="modal" aria-label="Close"><i class="fa fa-times" aria-hidden="true"></i></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <div class="col-md-12">
-                                                        <p>This will show in the calendar with perticular date. Once approved, the notification will be sent to Komal Gautam.</p>
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer justify-content-between">
-                                                    <button type="button" class="close-btn" data-bs-dismiss="modal">Close</button>
-                                                    <button type="button" class="approve-btn">Approve</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                      <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModalUnapproved" class="unapproved_btn">Unapproved</button>
                                     </div>
                                         <!-- Button trigger modal -->                                 
                                   </div>
@@ -126,6 +107,25 @@
   // print_r($calander[0]['title']);
   ?>
   @include('rotaStaff.components.footer')
+  <div class="modal fade unapproved" id="exampleModalUnapproved" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="max-width: 50vw;">
+        <div class="modal-content content-modal">
+            <div class="modal-header modal-head">
+                <h5 class="modal-title" id="exampleModalLabel"><span>Are you sure you want to approve this leave?</span></h5>
+                <button type="button" class=" close-btn" data-bs-dismiss="modal" aria-label="Close"><i class="fa fa-times" aria-hidden="true"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="col-md-12">
+                    <p>This will show in the calendar with perticular date. Once approved, the notification will be sent to Komal Gautam.</p>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="close-btn" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="approve-btn">Approve</button>
+            </div>
+        </div>
+    </div>
+</div>
   <script>
      document.addEventListener('DOMContentLoaded', function () {
       var initialLocaleCode = 'en';
