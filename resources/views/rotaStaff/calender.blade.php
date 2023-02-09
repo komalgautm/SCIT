@@ -34,69 +34,53 @@
                       </select>
 
                       <h2>Pending requests (0)</h2>
+                   
                       <p>Everything is up to date, have a cuppa!</p>
                       <div class="row">
-                        <div class="col-md-6 my-2">
-                          <div class="pending_rquest">
-                            <div class="parent_div">
-                              <div class="d-flex justify-content-between">
-                                <div class="d-flex flex-column align-items-center justify-content-center col-md-2 date_of_shift_rota">
-                                  <div class="short_name">KG</div>
-                                </div>
-                                <div class="col-md-10 p-2">
-                                  <div class="d-flex justify-content-between align-items-center">
-                                    <div>
-                                      <a href="./timeline-view.html" class="rota_shift_employee_name"><h5>Komal Gautam</h5></a>
-                                    </div>
-                                    <div>
-                                      <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" class="unapproved_btn my-2">Unapproved</button>
-                                      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog" style="max-width: 50vw;">
-                                            <div class="modal-content content-modal">
-                                                <div class="modal-header modal-head">
-                                                    <h5 class="modal-title" id="exampleModalLabel"><span>Are you sure you want to approve this leave?</span></h5>
-                                                    <button type="button" class=" close-btn" data-bs-dismiss="modal" aria-label="Close"><i class="fa fa-times" aria-hidden="true"></i></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <div class="col-md-12">
-                                                        <p>This will show in the calendar with perticular date. Once approved, the notification will be sent to Komal Gautam.</p>
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer justify-content-between">
-                                                    <button type="button" class="close-btn" data-bs-dismiss="modal">Close</button>
-                                                    <button type="button" class="approve-btn">Approve</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    </div>
-                                        <!-- Button trigger modal -->                                 
+                          @foreach($pending_leave as $pending_leaves)
+                          <div class="col-md-6 my-2">
+                            <div class="pending_rquest">
+                              <div class="parent_div">
+                                <div class="d-flex justify-content-between">
+                                  <div class="d-flex flex-column align-items-center justify-content-center col-md-2 date_of_shift_rota">
+                                    <div class="short_name">KG</div>
                                   </div>
-                                  <div class="d-flex flex-column">
-                                    <div class="start_end_date"><strong>Start:&nbsp;</strong>23/12/2020<strong>&nbsp;&nbsp;&nbsp;End:&nbsp;</strong>23/12/1220</div>
-                                    <div class="pe-3">Leave for urgent work</div>
-                                    <div class="order-1">
+                                  <div class="col-md-10 p-2">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                      <div>
+                                        <a href="./timeline-view.html" class="rota_shift_employee_name"><h5>{{ $pending_leaves->name }}</h5></a>
+                                      </div>
+                                      <div>
+                                        <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" class="unapproved_btn">Unapproved</button>
+                                        
+                                      </div>
+                                          <!-- Button trigger modal -->                                 
                                     </div>
+                                    <div class="d-flex flex-column">
+                                      <div class="start_end_date"><strong>Start:&nbsp;</strong>{{ $pending_leaves->start_date }}<strong>&nbsp;&nbsp;&nbsp;End:&nbsp;</strong>{{ $pending_leaves->end_date }}</div>
+                                      <div class="pe-3">{{ $pending_leaves->notes }}</div>
+                                      <div class="order-1">
+                                      </div>
+                                  </div>
                                 </div>
                               </div>
-                            </div>
+                              </div>
                             </div>
                           </div>
+                          @endforeach
                         </div>
-                      </div>
-
-                      @foreach($pending_leave as $pending_leaves)
+                    
                         <div>
-                          <span>{{ $pending_leaves->name }}</span>
+                          <span></span>
                           <span>{{ $pending_leaves->leave_name }}</span>
-                          <span>{{ $pending_leaves->start_date }}</span>
-                          <span>{{ $pending_leaves->end_date }}</span>
+                          <span></span>
+                          <span></span>
                           <span>{{ $pending_leaves->user_id }}</span>
-                          <span>{{ $pending_leaves->notes }}</span>
+                          <span></span>
                           <span><button>Approve</button></span>
 
                         </div>
-                      @endforeach
+                      
 
                     </div>
                     <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
@@ -121,10 +105,25 @@
       </div>
   </section>
   <!-- demo -->
-  <?php
-  // echo "<pre>";
-  // print_r($calander[0]['title']);
-  ?>
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" style="max-width: 50vw;">
+          <div class="modal-content content-modal">
+              <div class="modal-header modal-head">
+                  <h5 class="modal-title" id="exampleModalLabel"><span>Are you sure you want to approve this leave?</span></h5>
+                  <button type="button" class=" close-btn" data-bs-dismiss="modal" aria-label="Close"><i class="fa fa-times" aria-hidden="true"></i></button>
+              </div>
+              <div class="modal-body">
+                  <div class="col-md-12">
+                      <p>This will show in the calendar with perticular date. Once approved, the notification will be sent to Komal Gautam.</p>
+                  </div>
+              </div>
+              <div class="modal-footer justify-content-between">
+                  <button type="button" class="close-btn" data-bs-dismiss="modal">Close</button>
+                  <button type="button" class="approve-btn">Approve</button>
+              </div>
+          </div>
+      </div>
+  </div>
   @include('rotaStaff.components.footer')
   <script>
      document.addEventListener('DOMContentLoaded', function () {

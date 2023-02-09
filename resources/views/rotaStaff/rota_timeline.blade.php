@@ -470,16 +470,15 @@
                                         <div class="row">
                                             <div class="col-md-12" id="showDiv">
                                                 <form class="employees-data" onsubmit="return validateform()">
+                                                    <input type="hidden" id="edit_rota_id">
+                                                    <input type="hidden" id="edit_shift_id">
+                                                    <input type="hidden" id="edit_user_id">
+                                                    <input type="hidden" id="assigned_user_id">  
+                                                    <input type="hidden" id="rota_shift_id">  
                                                     <div class="row my-2">
                                                         <label for="assign_work" class="col-sm-3 col-form-label">Assigned worker</label>
                                                         <div class="col-sm-4">
                                                             <select name="" id="add_employess_for_edit" class="form-select form-control">
-                                                                <option value="person_name1">Jack</option>
-                                                                <option value="person_name2">Jack</option>
-                                                                <option value="person_name3">Jack</option>
-                                                                <option value="person_name4">Jack</option>
-                                                                <option value="person_name5">Jack</option>
-                                                                <option value="person_name6">Jack</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -490,23 +489,23 @@
                                                         </div>
                                                     </div>
                                                     <div class="row my-2">
-                                                        <label for="firstName" class="col-sm-3 col-form-label">Shift time</label>
+                                                        <label for="edit_start_time" class="col-sm-3 col-form-label">Shift time</label>
                                                             <!-- <div class="col-sm-5"> -->
                                                             <div class="col-auto">
-                                                                <input type="time" class="col-sm-2 form-control" id="firstName" aria-describedby="emailHelp" value="9:00" placeholder="">
+                                                                <input type="time" class="col-sm-2 form-control" id="edit_start_time" aria-describedby="emailHelp" value="9:00" placeholder="">
                                                             </div>
                                                             <div class="col-auto">
                                                                 <span class="btew-time">to</span>
                                                             </div>
                                                             <div class="col-auto">
-                                                                <input type="time" class="col-sm-2 form-control" id="firstName" value="9:00" aria-describedby="emailHelp" placeholder="">
+                                                                <input type="time" class="col-sm-2 form-control" id="edit_end_time" value="9:00" aria-describedby="emailHelp" placeholder="">
                                                             </div>
                                                         <!-- </div> -->
                                                     </div>
                                                     <div class="row my-2">
-                                                        <label for="lastName" class="col-sm-3 col-form-label">Break duration</label>
+                                                        <label for="edit_break_time" class="col-sm-3 col-form-label">Break duration</label>
                                                         <div class="col-auto">
-                                                            <input type="time" class="form-control" id="lastName" placeholder="Last name">
+                                                            <input type="number" class="form-control" id="edit_break_time" placeholder="Last name" min="1" max="60">
                                                             <p id="lastNamError">
                                                             </p>
                                                         </div>
@@ -514,7 +513,7 @@
                                                     <div class="row">
                                                         <label for="emailAdd" class="col-sm-12">Add a note</label>
                                                         <div class="col-md-12">
-                                                            <textarea name="" class="form-control" id="" cols="40" rows="3"></textarea>
+                                                            <textarea name="" class="form-control" id="description" cols="40" rows="3"></textarea>
                                                         </div>
                                                     </div>
                                                     <div class="row">
@@ -523,11 +522,11 @@
                                                             <b>On this day</b>
                                                         </div>
                                                         <div class="col-md-4 my-3" style="opacity: 0.7; font-weight: 500;">No event on this day</div>
-                                                        <p>This shift is <strong>8 hour with no break </strong></p>
+                                                        <p>This shift is <strong><span id="duration_of_shift"></span> </strong></p>
                                                     </div>
                                                     <div class="form-group col-md-12 d-flex justify-content-end">
                                                         <button type="button" class="delete_modal_btn">Delete</button>
-                                                        <button type="button" id="next1" onclick="next({id:'next',form:'form',count:1})" class="save-btn">Update shift</button>
+                                                        <button type="button" id="update_shift" onclick="next({id:'next',form:'form',count:1})" class="save-btn">Update shift</button>
                                                     </div>
                                                 </form>
                                             </div>
@@ -553,8 +552,56 @@
         function view_user_data(shift_id,user_id){
             var token = "<?=csrf_token()?>";
             var rota_id =$('#new_rota').val();
-            // alert(shift_id);
-            // alert(user_id);
+            $.ajax({
+                    url:"{{ url('/get-all-users') }}",    
+                    type: "get",    
+                    dataType: 'json',
+                    success:function(result){
+                        console.log(result);
+                        $('#add_employess_for_edit').find('option').remove();
+                        for(i = 1; i <= result.length; i++){
+                            if(result[i]['id'] == user_id){
+                                $('#add_employess_for_edit').append("<option selected value='" + result[i]['id'] + "'>" + result[i]['name'] + "</option>");
+                            } else {
+                                $('#add_employess_for_edit').append("<option value='" + result[i]['id'] + "'>" + result[i]['name'] + "</option>");
+                            }
+                          
+                        }
+                    }
+                });
+            $.ajax({
+                    url:"{{ url('/edit_shift_data_get') }}",    
+                    type: "post",    
+                    dataType: 'json',
+                    data: {rota_id: rota_id, user_id: user_id, shift_id: shift_id, _token:token},
+                    success:function(result){
+                        console.log(result);
+                        console.log(result[0]['rota_day_date']);
+                        $('#edit_rota_id').val(rota_id);
+                        $('#edit_shift_id').val(shift_id);
+                        $('#edit_user_id').val(user_id);
+                        $('#assigned_user_id').val(result[0]['assigned_id']); 
+                        $('#rota_shift_id').val(result[0]['rota_shift_id']); 
+                        $('#date_of_shift').val(result[0]['rota_day_date']);
+                        $('#edit_start_time').val(result[0]['shift_start_time']); 
+                        $('#edit_end_time').val(result[0]['shift_end_time']);
+                        $('#edit_break_time').val(result[0]['break']);
+                        $('#description').val(result[0]['description']);
+                        var start = moment(result[0]['shift_start_time'], "HH:mm:ss").format("HH:mm");
+                        var end = moment(result[0]['shift_end_time'], "HH:mm:ss").format("HH:mm");
+                        console.log(start);
+                        console.log(end);
+                        d1 = start.split(':')[0];
+                        d2 = end.split(':')[0];
+                        hours = d2-d1;
+                        document.getElementById('duration_of_shift').innerHTML = hours +" hour with " + result[0]['break'] + " mins break";
+                    }
+                });
+            $('#exampleModalShiftModal').modal('show'); 
+        }
+    
+        function view_shift_model(date1, date2, id){
+            var token = "<?=csrf_token()?>";
             $.ajax({
                     url:"{{ url('/get-all-users') }}",    
                     type: "get",    
@@ -563,25 +610,19 @@
                         console.log(result);
                         for(i = 1; i <= result.length; i++){
                             console.log(result);
-                            $('add_employess_for_edit').append();
+                            document.querySelector('#employee_list').insertAdjacentHTML(
+                                'afterbegin',
+                                `<div class="col-md-6">
+                                    <input type="checkbox" class="custom_checkbox" name="mycheckboxes" value="`+result[i]['id']+`" id="select_checkbox_`+i+`">
+                                    <label for="select_checkbox_`+i+`" class="name">
+                                        <p>`+result[i]['name']+`</p>
+                                        <p class="select_tick"><span class="right_tick"><i class="fa fa-check" aria-hidden="true"></i></span></p>
+                                    </label>
+                                </div>`      
+                            );
                         }
                     }
                 });
-            // $.ajax({
-            //         url:"{{ url('/edit_shift_data_get') }}",    
-            //         type: "post",    
-            //         dataType: 'text',
-            //         data: {rota_id: rota_id, user_id: user_id, shift_id: shift_id, _token:token},
-            //         success:function(result){
-            //             console.log(result);
-            //         }
-            //     });
-
-             
-            $('#exampleModalShiftModal').modal('show'); 
-        }
-    
-        function view_shift_model(date1, date2, id){
             console.log(date1);
             console.log(date2);
             $("#form1").css("display","block")
@@ -637,27 +678,33 @@
             return (/\s/).test(s);
         }
         $(document).ready(function(){
-            $.ajax({
-                    url:"{{ url('/get-all-users') }}",    
-                    type: "get",    
+            var token = "<?=csrf_token()?>";
+            $('#update_shift').on('click', function(){
+                var edit_rota_id  = $('#edit_rota_id').val();
+                var edit_shift_id =  $('#edit_shift_id').val();
+                var update_user_id = $('#edit_user_id').val();
+                var updtate_date_of_shift = $('#date_of_shift').val();
+                var update_shift_start_time = $('#edit_start_time').val(); 
+                var update_shift_end_time = $('#edit_end_time').val();
+                var update_break = $('#edit_break_time').val();
+                var description = $('#description').val();
+                var assigned_user_id = $('#assigned_user_id').val();
+                var rota_shift_id = $('#rota_shift_id').val();
+                $.ajax({
+                    url:"{{ url('/update-shift-data') }}",    
+                    type: "post",    
                     dataType: 'json',
+                    data: {edit_rota_id: edit_rota_id, edit_shift_id: edit_shift_id, update_user_id: update_user_id, updtate_date_of_shift: updtate_date_of_shift, update_shift_start_time: update_shift_start_time, update_shift_end_time:update_shift_end_time, update_break: update_break, description: description,
+                        assigned_user_id: assigned_user_id, rota_shift_id:rota_shift_id, _token:token},
                     success:function(result){
                         console.log(result);
-                        for(i = 1; i <= result.length; i++){
-                            console.log(result);
-                            document.querySelector('#employee_list').insertAdjacentHTML(
-                                'afterbegin',
-                                `<div class="col-md-6">
-                                    <input type="checkbox" class="custom_checkbox" name="mycheckboxes" value="`+result[i]['id']+`" id="select_checkbox_`+i+`">
-                                    <label for="select_checkbox_`+i+`" class="name">
-                                        <p>`+result[i]['name']+`</p>
-                                        <p class="select_tick"><span class="right_tick"><i class="fa fa-check" aria-hidden="true"></i></span></p>
-                                    </label>
-                                </div>`      
-                            );
+                        if(result === 1){
+                            $('#exampleModalShiftModal').modal('hide'); 
                         }
+
                     }
                 });
+            });
             $(".w_full").hide();
             $('#next4').on('click', function(){
                 var rota_id =$('#new_rota').val();
@@ -693,6 +740,10 @@
                                 var end = moment(result.rotaShift[0]['shift_end_time'], "HH:mm:ss").format("HH:mm");
                                 console.log(start);
                                 console.log(end);
+                                d1 = start.split(':')[0];
+                                d2 = end.split(':')[0];
+                                hours = d2-d1;
+                                console.log(d2-d1);
                                 var name = result.user_name[i][0]['name'];
                                 var get_name = hasWhiteSpace(name);
                                 console.log(get_name);
@@ -706,10 +757,7 @@
                                     fname = name.charAt(0);
                                     shortname = fname;
                                 }
-                                d1 = start.split(':')[0];
-                                d2 = end.split(':')[0];
-                                hours = d2-d1;
-                                console.log(d2-d1);
+                             
                                     document.querySelector('#show_user_record'+shiftmodelid).insertAdjacentHTML(
                                 'afterbegin',
                                         `<div class="w_full" style="">

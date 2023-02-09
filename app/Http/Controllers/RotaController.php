@@ -492,12 +492,42 @@ class RotaController extends Controller
 
     function edit_shift_data_get(Request $request ){
          
-        $rota = DB::table('rota_shift')
-        ->join('rota_assign_employees', 'rota_assign_employees.shift_id', '=', 'rota_shift.id')
-        ->join()
-        ->select('')
-        ->where('rota.id', $request->id)
+        // $rota = DB::table('rota_shift')
+        // ->join('rota_assign_employees', 'rota_assign_employees.shift_id', '=', 'rota_shift.id')
+        // ->select('rota_shift.id','rota_assign_employees.id', 'rota_shift.rota_day_date', 'rota_shift.shift_start_time', 'rota_shift.shift_end_time', 'rota_shift.break','rota_shift.description')
+        // ->where('rota_shift.rota_id', $request->rota_id)
+        // ->where('rota_assign_employees.emp_id', 'rota_assign_employees.user_id')
+        // ->get();
+
+        $rota = DB::table('rota_assign_employees')
+        ->join('rota_shift', 'rota_assign_employees.shift_id', '=', 'rota_shift.id')
+        ->select('rota_shift.id as rota_shift_id','rota_assign_employees.id as assigned_id', 'rota_shift.rota_day_date', 'rota_shift.shift_start_time', 'rota_shift.shift_end_time', 'rota_shift.break','rota_shift.description')
+        ->where('rota_assign_employees.rota_id', $request->rota_id)
+        ->where('rota_assign_employees.emp_id', $request->user_id)
         ->get();
-    echo json_encode($rota); 
+
+        echo json_encode($rota); 
+    }
+
+    function update_shift_data(Request $request){
+       
+        $edit_rota_id = $request->edit_rota_id;
+        $edit_shift_id = $request->edit_shift_id;
+        $update_user_id = $request->update_user_id;
+        $rotashift = array(
+          'rota_day_date' => $request->updtate_date_of_shift,
+          'shift_start_time' => $request->update_shift_start_time,
+          'shift_end_time' => $request->update_shift_end_time,
+          'break' => $request->update_break,
+          'description' => $request->description
+        );
+
+        RotaShift::where('id', $request->rota_shift_id)
+        ->update($rotashift);
+
+        $data = RotaAssignEmployee::where('id', $request->assigned_user_id)
+        ->update(['emp_id' => $request->update_user_id]);
+
+        echo json_encode($data);
     }
 }

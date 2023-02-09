@@ -47,4 +47,5 @@ Route::get('/employee','RotaController@employee_view');
 Route::post('/get_rota_employee','RotaController@get_rota_employee');
 Route::post('/get_all_shift','RotaController@get_all_shift');
 Route::post('/edit_shift_data_get','RotaController@edit_shift_data_get');
+Route::post('/update-shift-data','RotaController@update_shift_data');
 
