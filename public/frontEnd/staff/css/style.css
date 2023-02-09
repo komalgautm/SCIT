@@ -1331,6 +1331,77 @@ h2.unpublice-titel {
     margin-bottom: 16px;
 }
 
+
+.content-info-title .unapproved_btn {
+    border: none;
+    outline: none;
+    padding: 4px 8px;
+    background-color: #e10078;
+    color: #fff;
+    border-radius: 5px;
+    font-weight: 600;
+}
+
+.content-info-title .unapproved_btn:hover {
+    background-color: #ad005c;
+}
+
+.content-info-title .pending_rquest .short_name {
+    font-weight: 600;
+    color: #fff;
+    background-color: #1f88b5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 25px;
+    height: 80px;
+    width: 80px;
+    border-radius: 50%;
+}
+
+.content-info-title .modal-head {
+    color: #fff;
+    background: #1f88b5;
+}
+
+.content-info-title .modal-head .close-btn {
+    color: #fff;
+    font-size: 20px;
+}
+
+.content-info-title .modal-footer .approve-btn {
+    border: none;
+    outline: none;
+    padding: 8px 16px;
+    background-color: #e10078;
+    color: #fff;
+    border-radius: 5px;
+    font-weight: 600;
+    transition: all 0.5s ease-in-out;
+}
+
+.content-info-title .modal-footer .approve-btn:hover {
+    background-color: #ad005c;
+}
+
+.content-info-title .modal-footer .close-btn {
+    border: none;
+    outline: none;
+    padding: 8px 16px;
+    background-color: #fff;
+    color: #e10078;
+    border: 2px solid #e10078;
+    border-radius: 5px;
+    font-weight: 600;
+    transition: all 0.5s ease-in-out;
+}
+
+.content-info-title .modal-footer .close-btn:hover {
+    background-color: #ad005c;
+    color: #fff;
+    border-color: #ad005c;
+}
+
 .content-info-titlep {}
 
 /* index page header css */
