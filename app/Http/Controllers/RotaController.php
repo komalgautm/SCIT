@@ -20,6 +20,34 @@ class RotaController extends Controller
         // return view('welcome');
         $leave['sickness'] = Staffleaves::where('is_deleted', 1 )->where('leave_status', 1)->where('leave_type', 2)->where('user_id', 15)->count();
         $leave['lateness'] = Staffleaves::where('is_deleted', 1 )->where('leave_status', 1)->where('leave_type', 3)->where('user_id', 15)->count();
+
+        $leave['annual_all'] = Staffleaves::where('is_deleted', 1 )->where('leave_status', 1)->where('leave_type', 1)->count();
+        $leave['sickness_all'] = Staffleaves::where('is_deleted', 1 )->where('leave_status', 1)->where('leave_type', 2)->count();
+        $leave['lateness_all'] = Staffleaves::where('is_deleted', 1 )->where('leave_status', 1)->where('leave_type', 3)->count();
+        $leave['other_all'] = Staffleaves::where('is_deleted', 1 )->where('leave_status', 1)->where('leave_type', 4)->count();
+
+        $all_today_leave = Staffleaves::where('is_deleted', 1 )->where('leave_status', 1)->get();
+
+      
+        $date = Carbon::now()->format('Y-m-d');
+        // $now_month = Carbon::now()->format('m');
+        // $now_year = Carbon::now()->format('Y');
+        $check = 0;
+        foreach($all_today_leave as $all_today_leaves){
+            $startDate = Carbon::parse($all_today_leaves->start_date); 
+            $endDate =  Carbon::parse($all_today_leaves->end_date);
+
+            // if ($date->isBetween($startDate, $endDate)) {
+            //     dd($date->format('Y-m-d') . ' is between '.$startDate.' and'. $endDate);
+            // } else {
+            //     dd($date->format('Y-m-d') . ' is between '.$startDate.' and'. $endDate);
+            // }
+            
+            // echo  $startDate."<br>";
+            $check = Carbon::now()->between($startDate, $endDate);
+            // echo $check;
+        }
+
         return view('rotaStaff.StaffDashboard', ['sidebar' => 'dashborad'], $leave);
     }
 
@@ -282,7 +310,7 @@ class RotaController extends Controller
 
     function calender_view(){
         //get all data for calender
-        $leave = Staffleaves::where('is_deleted', 1 )->get();
+        $leave = Staffleaves::where('is_deleted', 1 )->where('staff_leaves.leave_status', 1)->get();
         $recordArray = array();
         foreach($leave as $value){
             $leave_name = LeaveType::where('id', $value->leave_type)->pluck('leave_name'); 
@@ -301,6 +329,8 @@ class RotaController extends Controller
                             ->where('staff_leaves.is_deleted', 1 )
                             ->where('staff_leaves.leave_status', 0)
                             ->get();
+
+        $data['count'] = DB::table('staff_leaves')->where('staff_leaves.is_deleted', 1 )->where('staff_leaves.leave_status', 0)->count();
         $data['calander']=json_encode($recordArray);
         return view('rotaStaff.calender', ['sidebar' => 'calender'], $data);
     }
@@ -529,5 +559,10 @@ class RotaController extends Controller
         ->update(['emp_id' => $request->update_user_id]);
 
         echo json_encode($data);
+    }
+
+    function approve_leave(Request $request){
+        $result = Staffleaves::where('id',$request->id)->update(['leave_status'=> 1]);
+        echo json_encode($result);
     }
 }

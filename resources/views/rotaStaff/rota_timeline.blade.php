@@ -244,7 +244,7 @@
     </section>
      <!-- Modal -->
      <div class="modal fade addShift" id="exampleModalAddShift" tabindex="-1" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
-        <div class="modal-dialog" style="display: block; max-width: 800px;">
+        <div class="modal-dialog" style="display: block; max-width: 50rem;">
             <div class="modal-content">
                 <div class="modal-body">
                     <div class="container remove-padding M-right" id="multiForm" style="display: block;">
@@ -287,13 +287,13 @@
                                                                 <input type="hidden" id="rota_shift_day_date">
                                                                 <label for="firstName" class="col-sm-2 col-form-label">Shift time</label>
                                                                     <!-- <div class="col-sm-5"> -->
-                                                                    <div class="col-auto">
+                                                                    <div class="col-auto mb-3">
                                                                         <input type="time" class="col-sm-2 form-control" id="start_time" aria-describedby="emailHelp" value="09:00" placeholder="">
                                                                     </div>
                                                                     <div class="col-auto">
                                                                         <span class="btew-time">to</span>
                                                                     </div>
-                                                                    <div class="col-auto">
+                                                                    <div class="col-auto mb-3">
                                                                         <input type="time" class="col-sm-2 form-control" id="end_time" value="17:00" aria-describedby="emailHelp" placeholder="">
                                                                     </div>
                                                                 <!-- </div> -->

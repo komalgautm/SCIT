@@ -257,7 +257,8 @@
                 $('#section8').hide();
             }
             if(leaveTypes_id == 2){
-                $('#section2').show(); $('#section5').show();
+                $('#section2').show(); 
+                $('#section5').show();
                 $('#section6').show();
                 $('#section7').show();
             } else {

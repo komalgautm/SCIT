@@ -12,54 +12,54 @@
                   <div class="col-lg-6 over-title-top">
                     <h2>Overview</h2> </div>
                   <div class="col-lg-6 add-btn-top">
-                    <h4><a href="annual-leave.html">+ Add time off</a></h4></div>
+                    <h4><a href="{{ url('/absence/type=1') }}">+ Add time off</a></h4></div>
                 </div>
                 <div class="flx-box">
                   <div class="crical-part-info-main">
                     <div class="cricat-up-text">
-                      <h3>Mon 25 Jul</h3> </div>
+                      <h3 class="entry-title">{{ \Carbon\Carbon::parse('Now -3 days')->format('D d M') }}</h3> </div>
                     <div class="crical-info-prt"> </div>
                     <div class="stock-crical-info">
                       <h2>1</h2></div>
                   </div>
                   <div class="crical-part-info-main">
                     <div class="cricat-up-text">
-                      <h3>Mon 25 Jul</h3> </div>
+                      <h3>{{ \Carbon\Carbon::parse('Now -2 days')->format('D d M') }}</h3> </div>
                     <div class="crical-info-prt"> </div>
                     <div class="stock-crical-info">
                       <h2>1</h2></div>
                   </div>
                   <div class="crical-part-info-main">
                     <div class="cricat-up-text">
-                      <h3>Mon 25 Jul</h3> </div>
+                      <h3>{{ \Carbon\Carbon::parse('Now -1 days')->format('D d M') }}</h3> </div> 
                     <div class="crical-info-prt"> </div>
                     <div class="stock-crical-info">
                       <h2>1</h2></div>
                   </div>
                   <div class="crical-part-info-main">
                     <div class="cricat-up-text">
-                      <h3>Mon 25 Jul</h3> </div>
+                      <h3> {{ \Carbon\Carbon::now()->format('D d M') }}</h3> </div>
                     <div class="crical-info-prt"> </div>
                     <div class="stock-crical-info">
                       <h2>1</h2></div>
                   </div>
                   <div class="crical-part-info-main">
                     <div class="cricat-up-text">
-                      <h3>Mon 25 Jul</h3> </div>
+                      <h3>{{ \Carbon\Carbon::parse('Now +1 days')->format('D d M') }}</h3> </div>
                     <div class="crical-info-prt"> </div>
                     <div class="stock-crical-info">
                       <h2>1</h2></div>
                   </div>
                   <div class="crical-part-info-main">
                     <div class="cricat-up-text">
-                      <h3>Mon 25 Jul</h3> </div>
+                      <h3>{{ \Carbon\Carbon::parse('Now +2 days')->format('D d M') }}</h3> </div>
                     <div class="crical-info-prt"> </div>
                     <div class="stock-crical-info">
                       <h2>1</h2></div>
                   </div>
                   <div class="crical-part-info-main">
                     <div class="cricat-up-text">
-                      <h3>Mon 25 Jul</h3> </div>
+                      <h3>{{ \Carbon\Carbon::parse('Now +3 days')->format('D d M') }}</h3> </div>
                     <div class="crical-info-prt"> </div>
                     <div class="stock-crical-info">
                       <h2>1</h2></div>
@@ -81,15 +81,19 @@
                       <form>
                         <div class="from-equal">
                           <div class="from-group">
-                            <input type="text" class="first-from" placeholder="Annual Leave"> </div>
+                            <a href="{{ url('/calender') }}" class="first-from"><span >{{ $annual_all }} Annual leave</span></a>
+                          </div>
                           <div class="from-group">
-                            <input type="text" class="secound-from" placeholder="0 Other"> </div>
+                            <a href="{{ url('/calender') }}" class="secound-from"><span >{{ $other_all }} Other leave</span></a> 
+                          </div>
                         </div>
                         <div class="from-equal">
                           <div class="from-group">
-                            <input type="text" class="three-from" placeholder="1 Sickness"> </div>
+                            <a href="{{ url('/calender') }}" class="three-from"><span >{{ $sickness_all }} Sickness leave</span></a> 
+                           </div>
                           <div class="from-group">
-                            <input type="text" class="four-from" placeholder="0 Time off in lieu"> </div>
+                            <a href="{{ url('/calender') }}" class="four-from"><span >{{ $lateness_all }} lateness leave</span></a> 
+                          </div>
                         </div>
                       </form>
                     </div>
@@ -291,3 +295,9 @@
     </div>
   </section>
   @include('rotaStaff.components.footer')
+  <script>
+    $(dcument).ready(function(){
+        var date = document.querySelector(".entry-title").textContent;
+        alert(date);
+    });
+  </script>

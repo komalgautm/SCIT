@@ -25,7 +25,7 @@
                         <span class="late leave"></span>Lateness
                         <span class="toil leave"></span>TOIL
                         <span class="other_leave leave"></span>Other absence
-                        <span class="pending_leave leave"></span>Pending
+                        <!-- <span class="pending_leave leave"></span>Pending -->
                       </div>
                       <div id='calendar'></div>
 
@@ -41,7 +41,7 @@
                         <option value="Date raised (Oldest first)">Date raised (Oldest first)</option>
                       </select>
 
-                      <h2>Pending requests (0)</h2>
+                      <h2>Pending requests (<?=$count?>)</h2>
                     
                       <p>Everything is up to date, have a cuppa!</p>
                       <div class="row">
@@ -65,7 +65,7 @@
                                       <a href="./timeline-view.html" class="rota_shift_employee_name"><h5>{{ $pending_leaves->name }} </h5></a>
                                     </div>
                                     <div>
-                                      <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModalUnapproved" class="unapproved_btn my-2">Unapproved</button>
+                                      <button type="button" style="background-color: {{ $pending_leaves->color }};" onclick="openunapprovemodal(<?php echo $pending_leaves->staffleave_id; ?>, '<?php echo $pending_leaves->name; ?>');" class="unapproved_btn my-2">Unapproved</button>
                                     </div>
                                         <!-- Button trigger modal -->                                 
                                   </div>
@@ -110,22 +110,44 @@
     <div class="modal-dialog" style="max-width: 50vw;">
         <div class="modal-content content-modal">
             <div class="modal-header modal-head">
+              <input type="hidden" id="edit_leave">
                 <h5 class="modal-title" id="exampleModalLabel"><span>Are you sure you want to approve this leave?</span></h5>
                 <button type="button" class=" close-btn" data-bs-dismiss="modal" aria-label="Close"><i class="fa fa-times" aria-hidden="true"></i></button>
             </div>
             <div class="modal-body">
                 <div class="col-md-12">
-                    <p>This will show in the calendar with perticular date. Once approved, the notification will be sent to Komal Gautam.</p>
+                    <p>This will show in the calendar with perticular date. Once approved, the notification will be sent to <span id="leave_person"></span>.</p>
                 </div>
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="close-btn" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="approve-btn">Approve</button>
+                <button type="button" class="approve-btn" id="approve_leave">Approve</button>
             </div>
         </div>
     </div>
 </div>
   <script>
+      $( document ).ready(function() {
+        $('#approve_leave').on('click',function(){
+          var id = $('#edit_leave').val();
+          var token = "<?=csrf_token()?>";
+          $.ajax({
+                url:"{{ url('/approve_leave') }}",    
+                type: "post",    
+                dataType: 'json',
+                data: {id: id, _token:token},
+                success:function(result){
+                    console.log(result);   
+                    location.reload();
+                }
+            });
+        });
+      });
+    function openunapprovemodal(leave_id, name){
+        $('#edit_leave').val(leave_id);
+        document.getElementById('leave_person').innerHTML = name;
+        $('#exampleModalUnapproved').modal('show');
+    }
      document.addEventListener('DOMContentLoaded', function () {
       var initialLocaleCode = 'en';
       var localeSelectorEl = document.getElementById('locale-selector');

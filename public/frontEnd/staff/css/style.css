@@ -485,6 +485,11 @@ Crical Bar Info
     background-repeat: no-repeat;
     background-position: 11px 8px;
     margin-bottom: 22px;
+    display: inline-block;
+}
+
+a.first-from:hover {
+    color: rgb(31 136 181);
 }
 
 .first-from::placeholder {
@@ -501,9 +506,14 @@ Crical Bar Info
     background-image: url(../images/seoundt-from-icons.png);
     background-repeat: no-repeat;
     background-position: 11px 8px;
+    display: inline-block;
 }
 
 .secound-from::placeholder {
+    color: #27a8df;
+}
+
+a.secound-from:hover {
     color: #27a8df;
 }
 
@@ -517,9 +527,14 @@ Crical Bar Info
     background-image: url(../images/three-from-icons.png);
     background-repeat: no-repeat;
     background-position: 11px 8px;
+    display: inline-block;
 }
 
 .three-from::placeholder {
+    color: #6aa1b9;
+}
+
+a.three-from:hover {
     color: #6aa1b9;
 }
 
@@ -533,6 +548,11 @@ Crical Bar Info
     background-image: url(../images/four-from-icons.png);
     background-repeat: no-repeat;
     background-position: 11px 8px;
+    display: inline-block;
+}
+
+a.four-from:hover {
+    color: #8cdbfd;
 }
 
 .four-from::placeholder {
@@ -1389,19 +1409,19 @@ h2.unpublice-titel {
 }
 
 .content-info-title .unapproved_btn:hover {
-    background-color: #ad005c;
+    /* background-color: #ad005c; */
 }
 
 .content-info-title .pending_rquest .short_name {
-    font-weight: 600;
+    font-weight: 500;
     color: #fff;
     background-color: #1f88b5;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 25px;
-    height: 80px;
-    width: 80px;
+    font-size: 20px;
+    height: 65px;
+    width: 65px;
     border-radius: 50%;
 }
 
