@@ -18,7 +18,15 @@
                     </li>
                   </ul>
                   <div class="tab-content tabs-info-content-space-bar" id="myTabContent">
-                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                    <div class="tab-pane fade show active calendar" id="home" role="tabpanel" aria-labelledby="home-tab">
+                    <div class="all_leave_with_color d-flex align-items-center my-3">
+                        <span class="annual leave"></span>Annual leave
+                        <span class="sick leave"></span>Sickness 
+                        <span class="late leave"></span>Lateness
+                        <span class="toil leave"></span>TOIL
+                        <span class="other_leave leave"></span>Other absence
+                        <span class="pending_leave leave"></span>Pending
+                      </div>
                       <div id='calendar'></div>
 
                     </div>
@@ -57,26 +65,7 @@
                                       <a href="./timeline-view.html" class="rota_shift_employee_name"><h5>{{ $pending_leaves->name }} </h5></a>
                                     </div>
                                     <div>
-                                      <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" class="unapproved_btn my-2">Unapproved</button>
-                                      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog" style="max-width: 50vw;">
-                                            <div class="modal-content content-modal">
-                                                <div class="modal-header modal-head">
-                                                    <h5 class="modal-title" id="exampleModalLabel"><span>Are you sure you want to approve this leave?</span></h5>
-                                                    <button type="button" class=" close-btn" data-bs-dismiss="modal" aria-label="Close"><i class="fa fa-times" aria-hidden="true"></i></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <div class="col-md-12">
-                                                        <p>This will show in the calendar with perticular date. Once approved, the notification will be sent to Komal Gautam.</p>
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer justify-content-between">
-                                                    <button type="button" class="close-btn" data-bs-dismiss="modal">Close</button>
-                                                    <button type="button" class="approve-btn">Approve</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                      <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModalUnapproved" class="unapproved_btn my-2">Unapproved</button>
                                     </div>
                                         <!-- Button trigger modal -->                                 
                                   </div>
@@ -116,27 +105,8 @@
       </div>
   </section>
   <!-- demo -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" style="max-width: 50vw;">
-          <div class="modal-content content-modal">
-              <div class="modal-header modal-head">
-                  <h5 class="modal-title" id="exampleModalLabel"><span>Are you sure you want to approve this leave?</span></h5>
-                  <button type="button" class=" close-btn" data-bs-dismiss="modal" aria-label="Close"><i class="fa fa-times" aria-hidden="true"></i></button>
-              </div>
-              <div class="modal-body">
-                  <div class="col-md-12">
-                      <p>This will show in the calendar with perticular date. Once approved, the notification will be sent to Komal Gautam.</p>
-                  </div>
-              </div>
-              <div class="modal-footer justify-content-between">
-                  <button type="button" class="close-btn" data-bs-dismiss="modal">Close</button>
-                  <button type="button" class="approve-btn">Approve</button>
-              </div>
-          </div>
-      </div>
-  </div>
   @include('rotaStaff.components.footer')
-  <div class="modal fade unapproved" id="exampleModalUnapproved" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade unapproved_modal_content" id="exampleModalUnapproved" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" style="max-width: 50vw;">
         <div class="modal-content content-modal">
             <div class="modal-header modal-head">

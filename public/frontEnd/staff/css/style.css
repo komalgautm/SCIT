@@ -1331,6 +1331,52 @@ h2.unpublice-titel {
     margin-bottom: 16px;
 }
 
+.calendar .all_leave_with_color .leave {
+    display: inline-block;
+    margin: 0px 10px;
+}
+
+.calendar .all_leave_with_color .annual {
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: #70c4f9;
+}
+
+.calendar .all_leave_with_color .sick {
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: #e0ae2e;
+}
+
+.calendar .all_leave_with_color .late {
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: #d75863;
+}
+
+.calendar .all_leave_with_color .toil {
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: #ff9d78;
+}
+
+.calendar .all_leave_with_color .other_leave {
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: #7DAFA3;
+}
+
+.calendar .all_leave_with_color .pending_leave {
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: #E10078;
+}
 
 .content-info-title .unapproved_btn {
     border: none;
@@ -1346,7 +1392,7 @@ h2.unpublice-titel {
     background-color: #ad005c;
 }
 
-.content-info-title .short_name {
+.content-info-title .pending_rquest .short_name {
     font-weight: 600;
     color: #fff;
     background-color: #1f88b5;
@@ -1359,17 +1405,26 @@ h2.unpublice-titel {
     border-radius: 50%;
 }
 
-.content-info-title .modal-head {
+.content-info-title .pending_rquest .rota_shift_employee_name {
+    text-decoration: none;
+    color: #1f88b5;
+    transition: all 0.3s ease-in-out;
+    font-weight: 500;
+    font-size: 20px;
+    text-transform: capitalize;
+}
+
+.unapproved_modal_content .modal-head {
     color: #fff;
     background: #1f88b5;
 }
 
-.content-info-title .modal-head .close-btn {
+.unapproved_modal_content .modal-head .close-btn {
     color: #fff;
     font-size: 20px;
 }
 
-.content-info-title .modal-footer .approve-btn {
+.unapproved_modal_content .modal-footer .approve-btn {
     border: none;
     outline: none;
     padding: 8px 16px;
@@ -1380,14 +1435,14 @@ h2.unpublice-titel {
     transition: all 0.5s ease-in-out;
 }
 
-.content-info-title .modal-footer .approve-btn:hover {
+.unapproved_modal_content .modal-footer .approve-btn:hover {
     background-color: #ad005c;
 }
 
-.content-info-title .modal-footer .close-btn {
+.unapproved_modal_content .modal-footer .close-btn {
     border: none;
     outline: none;
-    padding: 8px 16px;
+    padding: 6px 16px;
     background-color: #fff;
     color: #e10078;
     border: 2px solid #e10078;
@@ -1396,7 +1451,7 @@ h2.unpublice-titel {
     transition: all 0.5s ease-in-out;
 }
 
-.content-info-title .modal-footer .close-btn:hover {
+.unapproved_modal_content .modal-footer .close-btn:hover {
     background-color: #ad005c;
     color: #fff;
     border-color: #ad005c;
