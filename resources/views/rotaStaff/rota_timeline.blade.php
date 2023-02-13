@@ -742,6 +742,7 @@
                                 console.log(end);
                                 d1 = start.split(':')[0];
                                 d2 = end.split(':')[0];
+                                console.log(d1);
                                 hours = d2-d1;
                                 console.log(d2-d1);
                                 var name = result.user_name[i][0]['name'];
@@ -757,10 +758,11 @@
                                     fname = name.charAt(0);
                                     shortname = fname;
                                 }
-                             
+                                
+                           
                                     document.querySelector('#show_user_record'+shiftmodelid).insertAdjacentHTML(
-                                'afterbegin',
-                                        `<div class="w_full" style="">
+                                    'afterbegin',
+                                    `<div class="w_full" style="">
                                             <div class="hour_box" style="width: calc(4.16667%);">
                                             </div>
                                             <div class="hour_box" style="width: calc(4.16667%);">
@@ -809,27 +811,29 @@
                                             </div>
                                             <div class="hour_box" style="width: calc(4.16667%);">
                                             </div>
-                                                    <!-- Button shift modal -->
-                                                    <button type="button" class="shift_timing_btn" onclick="view_user_data(`+result.rotaShift[0]['id']+`,`+result.user_name[i][0]['id']+`)"style="width: `+hours*4.16667+`%;  left: `+hours*4.16667+`%;" data-testid="Shift card">
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="">
-                                                                <div class="name_of_member">
-                                                                    <div class="">`+shortname+`</div>
-                                                                </div>
-                                                            </div>
-                                                        <div class="">
-                                                                <div class="d-flex align-items-center">
-                                                                    <div class="name_of_person">`+result.user_name[i][0]['name']+`</div>
-                                                                    <div class="shift_timeing_duration">`+start+`-`+end+`</div>
-                                                                </div>
-                                                                <div class=""></div>
-                                                            </div>
+                                            <!-- Button shift modal -->
+                                            <button type="button" class="shift_timing_btn" onclick="view_user_data(`+result.rotaShift[0]['id']+`,`+result.user_name[i][0]['id']+`)"style="width: `+hours*4.16667+`%;  left: `+hours*4.16667+`%;" data-testid="Shift card">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="">
+                                                        <div class="name_of_member">
+                                                            <div class="">`+shortname+`</div>
                                                         </div>
-                                                    </button>
-                                                    
-                                                    <!-- Modal -->
-                                                </div>`   
-                                    );    
+                                                    </div>
+                                                <div class="">
+                                                        <div class="d-flex align-items-center">
+                                                            <div class="name_of_person">`+result.user_name[i][0]['name']+`</div>
+                                                            <div class="shift_timeing_duration">`+start+`-`+end+`</div>
+                                                        </div>
+                                                        <div class=""></div>
+                                                    </div>
+                                                </div>
+                                            </button>
+                                            <!-- Modal -->
+                                        </div>`   
+                                    );  
+                                    
+                              
+                                
                                 
                             }
                             document.getElementById('shift_count').innerHTML =  result.user_name.length; 

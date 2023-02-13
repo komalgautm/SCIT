@@ -1,3 +1,9 @@
+<style>
+  .current_select{
+    transform: scale(1.4);
+  }
+
+</style>
 @include('rotaStaff.components.header')
 <div class="col-lg-11">
           <div class="row">
@@ -17,52 +23,60 @@
                 <div class="flx-box">
                   <div class="crical-part-info-main">
                     <div class="cricat-up-text">
-                      <h3 class="entry-title">{{ \Carbon\Carbon::parse('Now -3 days')->format('D d M') }}</h3> </div>
+                      <h3 class="entry-title"> {{ \Carbon\Carbon::parse('Now -3 days')->format('D d M') }}</a></h3></div>
                     <div class="crical-info-prt"> </div>
+                    <a onclick="change_leaves_data('<?php echo \Carbon\Carbon::parse('Now -3 days')->format('D d M'); ?>')" >
                     <div class="stock-crical-info">
-                      <h2>1</h2></div>
+                      <h2>1</h2></div></a>
                   </div>
                   <div class="crical-part-info-main">
                     <div class="cricat-up-text">
-                      <h3>{{ \Carbon\Carbon::parse('Now -2 days')->format('D d M') }}</h3> </div>
+                      <h3 >{{ \Carbon\Carbon::parse('Now -2 days')->format('D d M') }}</h3> </div>
                     <div class="crical-info-prt"> </div>
+                    <a onclick="change_leaves_data('<?php echo \Carbon\Carbon::parse('Now -2 days')->format('D d M'); ?>')" >
                     <div class="stock-crical-info">
-                      <h2>1</h2></div>
+                      <h2>1</h2></div> </a>
                   </div>
                   <div class="crical-part-info-main">
                     <div class="cricat-up-text">
                       <h3>{{ \Carbon\Carbon::parse('Now -1 days')->format('D d M') }}</h3> </div> 
                     <div class="crical-info-prt"> </div>
+                    <a onclick="change_leaves_data('<?php echo \Carbon\Carbon::parse('Now -1 days')->format('D d M'); ?>')">
                     <div class="stock-crical-info">
-                      <h2>1</h2></div>
+                      <h2>1</h2>
+                    </div> </a>
                   </div>
-                  <div class="crical-part-info-main">
+                  <div class="crical-part-info-main current_select">
                     <div class="cricat-up-text">
-                      <h3> {{ \Carbon\Carbon::now()->format('D d M') }}</h3> </div>
+                      <h3 > {{ \Carbon\Carbon::now()->format('D d M') }}</h3> </div>
                     <div class="crical-info-prt"> </div>
+                    <a onclick="change_leaves_data('<?php echo \Carbon\Carbon::parse('Now -1 days')->format('D d M'); ?>')">
                     <div class="stock-crical-info">
-                      <h2>1</h2></div>
+                      <h2>1</h2></div> </a>
                   </div>
                   <div class="crical-part-info-main">
                     <div class="cricat-up-text">
                       <h3>{{ \Carbon\Carbon::parse('Now +1 days')->format('D d M') }}</h3> </div>
                     <div class="crical-info-prt"> </div>
+                    <a onclick="change_leaves_data('<?php echo \Carbon\Carbon::parse('Now +1 days')->format('D d M'); ?>')">
                     <div class="stock-crical-info">
-                      <h2>1</h2></div>
+                      <h2>1</h2></div> </a>
                   </div>
                   <div class="crical-part-info-main">
                     <div class="cricat-up-text">
                       <h3>{{ \Carbon\Carbon::parse('Now +2 days')->format('D d M') }}</h3> </div>
                     <div class="crical-info-prt"> </div>
-                    <div class="stock-crical-info">
-                      <h2>1</h2></div>
+                    <a onclick="change_leaves_data('<?php echo \Carbon\Carbon::parse('Now +2 days')->format('D d M'); ?>')">
+                      <div class="stock-crical-info">
+                      <h2>1</h2></div></a>
                   </div>
                   <div class="crical-part-info-main">
                     <div class="cricat-up-text">
                       <h3>{{ \Carbon\Carbon::parse('Now +3 days')->format('D d M') }}</h3> </div>
                     <div class="crical-info-prt"> </div>
+                    <a onclick="change_leaves_data('<?php echo \Carbon\Carbon::parse('Now +3 days')->format('D d M'); ?>')">
                     <div class="stock-crical-info">
-                      <h2>1</h2></div>
+                      <h2>1</h2></div></a>
                   </div>
                 </div>
                 <div class="col-lg-12">
@@ -75,24 +89,24 @@
                     <div class="col-lg-3">
                       <div class="main-white-crical"></div>
                       <div class="main-summery-box-strock">
-                        <h2>1</h2> </div>
+                        <h2><span id="all_leave"></span></h2> </div>
                     </div>
                     <div class="col-lg-9 col-md-9">
                       <form>
                         <div class="from-equal">
                           <div class="from-group">
-                            <a href="{{ url('/calender') }}" class="first-from"><span >{{ $annual_all }} Annual leave</span></a>
+                            <a href="{{ url('/calender') }}" class="first-from"><span ><span id="annual_leave"></span> Annual leave</span></a>
                           </div>
                           <div class="from-group">
-                            <a href="{{ url('/calender') }}" class="secound-from"><span >{{ $other_all }} Other leave</span></a> 
+                            <a href="{{ url('/calender') }}" class="secound-from"><span ><span id="other_leave"></span> Other leave</span></a> 
                           </div>
                         </div>
                         <div class="from-equal">
                           <div class="from-group">
-                            <a href="{{ url('/calender') }}" class="three-from"><span >{{ $sickness_all }} Sickness leave</span></a> 
+                            <a href="{{ url('/calender') }}" class="three-from"><span ><span id="sickness_leave"></span> Sickness leave</span></a> 
                            </div>
                           <div class="from-group">
-                            <a href="{{ url('/calender') }}" class="four-from"><span >{{ $lateness_all }} lateness leave</span></a> 
+                            <a href="{{ url('/calender') }}" class="four-from"><span ><span id="lateness_leave"></span> lateness leave</span></a> 
                           </div>
                         </div>
                       </form>
@@ -296,8 +310,40 @@
   </section>
   @include('rotaStaff.components.footer')
   <script>
-    $(dcument).ready(function(){
-        var date = document.querySelector(".entry-title").textContent;
-        alert(date);
+    function change_leaves_data(date){
+      var token = "<?=csrf_token()?>";
+      $.ajax({
+          url:"{{ url('/get_leave_record_for_1_week') }}",    
+          type: "post",    
+          dataType: 'json',
+          data: {date: date, _token:token},
+          success:function(result){
+              console.log(result);
+              document.getElementById('other_leave').innerHTML = result.other;
+              document.getElementById('annual_leave').innerHTML = result.annual;
+              document.getElementById('sickness_leave').innerHTML = result.sickness;
+              document.getElementById('lateness_leave').innerHTML = result.lateness;
+              document.getElementById('all_leave').innerHTML = (result.lateness)+(result.other)+(result.sickness)+(result.annual);
+              
+          }
+      });
+    } 
+    $(document).ready(function(){
+      var token = "<?=csrf_token()?>";
+      var date = moment().format('YYYY-MM-DD');
+      $.ajax({
+          url:"{{ url('/get_leave_record_for_1_week') }}",    
+          type: "post",    
+          dataType: 'json',
+          data: {date: date, _token:token},
+          success:function(result){
+              console.log(result);
+              document.getElementById('other_leave').innerHTML = result.other;
+              document.getElementById('annual_leave').innerHTML = result.annual;
+              document.getElementById('sickness_leave').innerHTML = result.sickness;
+              document.getElementById('lateness_leave').innerHTML = result.lateness;
+              document.getElementById('all_leave').innerHTML = (result.lateness)+(result.other)+(result.sickness)+(result.annual);
+          }
+      });
     });
   </script>

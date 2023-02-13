@@ -168,12 +168,13 @@
                             <h3>Active rotas</h3>
                           </div>
                           <div class="col-lg-4 col-md-4">
-                            <input type="date" placeholder="Select range..." class="form-control">
+                            <input type="date" placeholder="Select range..." id="search_date" class="form-control">
                           </div>
                           <div class="col-lg-3 col-md-3">
-                            <input type="text" class="form-control form-select" placeholder="Rota name...">
+                            <input type="text" class="form-control form-select" id="rota_name_search" placeholder="Rota name...">
                           </div>
-                        </div>
+                          <div id="result"></div>
+                         </div>
                       </form>
                       <div class="col-md-12 my-5 publish_rota_content">
                         <div class="d-flex justify-content-between">
@@ -948,6 +949,30 @@
   @include('rotaStaff.components.footer')
   <script>
     $( document ).ready(function() {
+
+      var token = "<?=csrf_token()?>";
+      const source = document.getElementById('rota_name_search');
+      const result = document.getElementById('result');
+
+      const inputHandler = function(e) {
+        var search_name = e.target.value;
+        $.ajax({
+              url:"{{ url('/get_record_of_rota') }}",    
+              type: "post",    
+              dataType: 'json',
+              data: {search_name: search_name, _token:token},
+              success:function(result){
+                  console.log(result);   
+              }
+          });
+        result.innerHTML = e.target.value;
+      }
+
+      source.addEventListener('input', inputHandler);
+      source.addEventListener('propertychange', inputHandler); 
+
+       
+        
         $('#rename_save_btn').on('click', function(){
           var rota_id =  document.getElementById('renameid').value;
           var rota_name = document.getElementById('team-name').value;

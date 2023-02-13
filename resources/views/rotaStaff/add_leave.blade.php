@@ -268,17 +268,17 @@
                 $('#section7').hide();
             }
             if(leaveTypes_id == 3){
-                $('#section3').show();
+                $('#section3').show();  
                 $('#section4').hide();  
                 
             } else {
-                $('#section3').hide();
+                $('#section3').hide();  
                 $('#section4').show();  
             }
             if(leaveTypes_id == 1 || leaveTypes_id == 2 || leaveTypes_id == 4){
                 $('#section4').show();
             }else {
-                $('#section4').show();
+                $('#section4').hide();
             }
             $('#leaveTypes_id').on('change', function(){
                 var select = document.getElementById('leaveTypes_id');
@@ -288,10 +288,10 @@
                 var leaveTypes_id = document.getElementById('leaveTypes_id').value;
                 // alert(leaveTypes_id);
                 if(leaveTypes_id == 1 ){
-                        $('#section8').show();
-                    } else {
-                        $('#section8').hide();
-                    }
+                    $('#section8').show();
+                } else {
+                    $('#section8').hide();
+                }
                 if(leaveTypes_id == 2){
                     $('#section2').show();  
                     $('#section7').show();

@@ -49,3 +49,6 @@ Route::post('/get_all_shift','RotaController@get_all_shift');
 Route::post('/edit_shift_data_get','RotaController@edit_shift_data_get');
 Route::post('/update-shift-data','RotaController@update_shift_data');
 Route::post('/approve_leave','RotaController@approve_leave');
+Route::post('/get_leave_record_for_1_week','RotaController@get_leave_record_for_1_week');
+
+Route::post('/get_record_of_rota','RotaController@get_record_of_rota');
