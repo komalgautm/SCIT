@@ -116,7 +116,7 @@
                                                 <div class="mb-3 row" >
                                                     <label for="name" class="col-sm-2 col-form-label">Date</label>
                                                     <div class="col-sm-3 col-md-3">
-                                                        <input type="date" name="late_date" placeholder="Pattern Name" class="form-control" id="staticEmail" value="">
+                                                        <input type="date" name="late_date" placeholder="Pattern Name" class="form-control" id="staticEmail" max="<?php echo date("Y-m-d"); ?>">
                                                     </div>
                                                 </div>
                                                 <div class="mb-3 row">

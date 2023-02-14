@@ -52,3 +52,5 @@ Route::post('/approve_leave','RotaController@approve_leave');
 Route::post('/get_leave_record_for_1_week','RotaController@get_leave_record_for_1_week');
 
 Route::post('/get_record_of_rota','RotaController@get_record_of_rota');
+Route::get('/get_all_rota_data','RotaController@get_all_rota_data');
+

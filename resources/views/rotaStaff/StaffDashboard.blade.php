@@ -1,6 +1,6 @@
 <style>
   .current_select{
-    transform: scale(1.4);
+    transform: scale(1.3);
   }
 
 </style>
@@ -11,8 +11,6 @@
          
             <!-- Top Bar Info Section End Here -->
             <div class="col-lg-8">
-
-              
               <div class="main-shodw-box">
                 <div class="row">
                   <div class="col-lg-6 over-title-top">
@@ -27,7 +25,7 @@
                     <div class="crical-info-prt"> </div>
                     <a onclick="change_leaves_data('<?php echo \Carbon\Carbon::parse('Now -3 days')->format('D d M'); ?>')" >
                     <div class="stock-crical-info">
-                      <h2>1</h2></div></a>
+                      <h2>{{ $total_leave_min_three }} </h2></div></a>
                   </div>
                   <div class="crical-part-info-main">
                     <div class="cricat-up-text">
@@ -35,7 +33,7 @@
                     <div class="crical-info-prt"> </div>
                     <a onclick="change_leaves_data('<?php echo \Carbon\Carbon::parse('Now -2 days')->format('D d M'); ?>')" >
                     <div class="stock-crical-info">
-                      <h2>1</h2></div> </a>
+                      <h2>{{ $total_leave_min_two }}</h2></div> </a>
                   </div>
                   <div class="crical-part-info-main">
                     <div class="cricat-up-text">
@@ -43,16 +41,16 @@
                     <div class="crical-info-prt"> </div>
                     <a onclick="change_leaves_data('<?php echo \Carbon\Carbon::parse('Now -1 days')->format('D d M'); ?>')">
                     <div class="stock-crical-info">
-                      <h2>1</h2>
+                      <h2>{{ $total_leave_min_one }}</h2>
                     </div> </a>
                   </div>
                   <div class="crical-part-info-main current_select">
                     <div class="cricat-up-text">
                       <h3 > {{ \Carbon\Carbon::now()->format('D d M') }}</h3> </div>
                     <div class="crical-info-prt"> </div>
-                    <a onclick="change_leaves_data('<?php echo \Carbon\Carbon::parse('Now -1 days')->format('D d M'); ?>')">
+                    <a onclick="change_leaves_data('<?php echo \Carbon\Carbon::now()->format('D d M'); ?>')">
                     <div class="stock-crical-info">
-                      <h2>1</h2></div> </a>
+                      <h2>{{ $total_leave_current }}</h2></div> </a>
                   </div>
                   <div class="crical-part-info-main">
                     <div class="cricat-up-text">
@@ -60,7 +58,7 @@
                     <div class="crical-info-prt"> </div>
                     <a onclick="change_leaves_data('<?php echo \Carbon\Carbon::parse('Now +1 days')->format('D d M'); ?>')">
                     <div class="stock-crical-info">
-                      <h2>1</h2></div> </a>
+                      <h2>{{ $total_leave_plus_one }}</h2></div> </a>
                   </div>
                   <div class="crical-part-info-main">
                     <div class="cricat-up-text">
@@ -68,7 +66,7 @@
                     <div class="crical-info-prt"> </div>
                     <a onclick="change_leaves_data('<?php echo \Carbon\Carbon::parse('Now +2 days')->format('D d M'); ?>')">
                       <div class="stock-crical-info">
-                      <h2>1</h2></div></a>
+                      <h2>{{ $total_leave_plus_two }}</h2></div></a>
                   </div>
                   <div class="crical-part-info-main">
                     <div class="cricat-up-text">
@@ -76,7 +74,7 @@
                     <div class="crical-info-prt"> </div>
                     <a onclick="change_leaves_data('<?php echo \Carbon\Carbon::parse('Now +3 days')->format('D d M'); ?>')">
                     <div class="stock-crical-info">
-                      <h2>1</h2></div></a>
+                      <h2>{{ $total_leave_plus_three }}</h2></div></a>
                   </div>
                 </div>
                 <div class="col-lg-12">
@@ -319,11 +317,12 @@
           data: {date: date, _token:token},
           success:function(result){
               console.log(result);
+              document.getElementById('all_leave').innerHTML = "";
               document.getElementById('other_leave').innerHTML = result.other;
               document.getElementById('annual_leave').innerHTML = result.annual;
               document.getElementById('sickness_leave').innerHTML = result.sickness;
               document.getElementById('lateness_leave').innerHTML = result.lateness;
-              document.getElementById('all_leave').innerHTML = (result.lateness)+(result.other)+(result.sickness)+(result.annual);
+              document.getElementById('all_leave').innerHTML = parseInt(result.lateness)+parseInt(result.other)+parseInt(result.sickness)+parseInt(result.annual);
               
           }
       });
@@ -342,7 +341,7 @@
               document.getElementById('annual_leave').innerHTML = result.annual;
               document.getElementById('sickness_leave').innerHTML = result.sickness;
               document.getElementById('lateness_leave').innerHTML = result.lateness;
-              document.getElementById('all_leave').innerHTML = (result.lateness)+(result.other)+(result.sickness)+(result.annual);
+              document.getElementById('all_leave').innerHTML = parseInt(result.lateness)+parseInt(result.other)+parseInt(result.sickness)+parseInt(result.annual);
           }
       });
     });

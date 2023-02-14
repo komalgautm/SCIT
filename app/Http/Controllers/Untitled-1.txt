@@ -173,13 +173,6 @@
                           <div class="col-lg-3 col-md-3">
                             <input type="text" class="form-control form-select" id="rota_name_search" placeholder="Rota name...">
                           </div>
-                          <div class="col-lg-3 col-md-3">
-                              <select name="sortBy">
-                                <option value="Name (A-Z)">Name (A-Z)</option>
-                                <option value="Name (Z-A)">Name (Z-A)</option>
-                                <option value="Start date (Newest first)">Start date (Newest first)</option>
-                                <option value="Start date (Oldest first)">Start date (Oldest first)</option></select>
-                          </div>
                           <div id="result"></div>
                          </div>
                       </form>
@@ -187,7 +180,7 @@
                         <div class="d-flex justify-content-between">
                           <div class="d-flex align-items-center">
                             <h4>Published rotas</h4>
-                            <span class="no_of_rota_publish" id="active_publish_rota_count"></span>
+                            <span class="no_of_rota_publish">{{ $active_publish_rota_count }}</span>
                           </div>
                           <div class="toggle_btns">
                             <button class="view_all_btn" onclick="showRotaPublish()" id="viewPublish">View all</button>
@@ -196,8 +189,81 @@
                         </div>
                         <div class="content_about_publish" id="beforePublishRota">
                           <h5>In progress</h5>
-                          <div id="new_publish_rota">
-                          </div>
+                            @foreach($active_rota as $rota_list_data)
+                            @if($rota_list_data->status == 1)
+                              <div class="parent_div my-2" id="new_publish_rota">
+                                <div class="d-flex justify-content-between">
+                                  <div class="d-flex flex-column align-items-center justify-content-center col-md-2 date_of_shift_rota">
+                                    <div>{{ \Carbon\Carbon::parse($rota_list_data->rota_start_date)->format('D')}} </div>
+                                    <div class="">{{ \Carbon\Carbon::parse($rota_list_data->rota_start_date)->format('jS M')}}</div>
+                                  </div>
+                                  <div class="col-md-10 px-2">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                      <div>
+                                        <a href="{{ url('/edit_rota/'.$rota_list_data->id ) }}" class="rota_shift_employee_name">{{ $rota_list_data->rota_name }}</a>
+                                      </div>
+                                      <div class="dropdown">
+                                        <button class=" my-2 d-flex justify-content-center align-items-center three_dot_btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                          <span class="dropbtn">
+                                            <svg width="32" class="dropbtn" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+                                              <circle cx="16" class="dropbtn" cy="24" r="2"></circle>
+                                              <circle cx="16" class="dropbtn" cy="16" r="2"></circle>
+                                              <circle cx="16" class="dropbtn" cy="8" r="2"></circle>
+                                            </svg>
+                                          </span>
+                                        </button>
+                                        <div class="dropdown-menu dropdown-content">
+                                          <ul>
+                                              <li>
+                                                <span class="edit-icon dropdown_icon"><i class="fa fa-pencil" aria-hidden="true"></i></span>
+                                                <a href="{{ url('/edit_rota/'.$rota_list_data->id ) }}">Edit</a>
+                                              </li>
+                                              <li>  
+                                                <span class="i-icon dropdown_icon"><i class="fa fa-info-circle" aria-hidden="true"></i></span>
+                                                <a onclick="RotaView(<?=$rota_list_data->id?>,'<?=$rota_list_data->rota_name?>')">View</a>
+                                              </li>
+                                              <li>
+                                                <span class="edit-icon dropdown_icon"><i class="fa fa-pencil" aria-hidden="true"></i></span>
+                                                <a onclick="renamedata(<?=$rota_list_data->id?>,'<?=$rota_list_data->rota_name?>')">Rename</a> 
+                                              </li>
+                                              <li>
+                                                <span class="tick-icon dropdown_icon"><i class="fa fa-check" aria-hidden="true"></i></span>
+                                                <a onclick="unpublishRotaEmployee(<?=$rota_list_data->id?>,'<?=$rota_list_data->rota_name?>')">Unpublish</a>
+                                              </li>
+                                              <li>
+                                                <span class="delete-icon dropdown_icon"><i class="fa fa-trash" aria-hidden="true"></i></span>
+                                                <a onclick="DeleteRotaEmployee(<?=$rota_list_data->id?>,'<?=$rota_list_data->rota_name?>')" class="delete_btn">Delete</a>
+                                              </li>
+                                          </ul>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="d-flex">
+                                      <div class="pe-3">Total:  <?php 
+                                         $rota_start_end_time = App\RotaShift::where('rota_id', $rota_list_data->id)->where('status', 1)->get();
+                                         $hours = 0; $minutes = 0;
+                                         foreach($rota_start_end_time as $rota_start_end_times){
+                                             $startTime = \Carbon\Carbon::parse($rota_start_end_times->shift_start_time);
+                                             $finishTime = \Carbon\Carbon::parse($rota_start_end_times->shift_end_time);
+                                             $duration = $finishTime->diff($startTime)->format('%H:%i:%s');
+                                             $totaltime = \Carbon\Carbon::parse($duration)->addMinutes($rota_start_end_times->break)->format('h:i:m');
+                                             $hours += \Carbon\Carbon::parse($totaltime)->format('h');
+                                             $minutes += \Carbon\Carbon::parse($totaltime)->format('i');
+                                         }
+                                         
+                                         $time_hour = date('G', mktime($hours, $minutes));
+                                         $time_min = date('i', mktime($hours, $minutes));
+                                         echo $time_hour ." hrs ". $time_min. " mins";
+                                    ?> (Incl. breaks)</div>
+                                      <div class="order-1">{{ $rota_list_data->rota_duration }} days<span class="px-2"></span><span>
+                                        {{ \App\RotaAssignEmployee::where(['rota_id' => $rota_list_data->id, 'status'=> 1])->count() }} employees</span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              @endif
+                            @endforeach
                           <p class="pb-8">Rotas that are currently active and in progress will appear here.</p>
                           <h5>Future rotas</h5>
                           <p class="pb-8">Rotas that are starting in the future will appear here.</p>
@@ -207,7 +273,7 @@
                         <div class="d-flex justify-content-between">
                           <div class="d-flex align-items-center">
                             <h4>Unpublished rotas</h4>
-                            <span class="no_of_rota_publish" id="active_unpublish_rota_count"></span>
+                            <span class="no_of_rota_publish">{{ $active_unpublish_rota_count }}</span>
                           </div>
                           <div class="toggle_btns">
                             <button class="view_all_btn" onclick="unPublishview()" id="viewUnpublish">View all</button>
@@ -216,10 +282,82 @@
                         </div>
                       </div>
                       <div class="col-md-12 col-lg-12" id="unpublish_rota_content_detail">
-                        <div  id="new_unpublish_rota">
-                         
-                        </div>
-                      </div>
+                      @foreach($active_rota as $rota_list_data)
+                          @if($rota_list_data->status == 0)
+                          <div class="parent_div my-2" id="new_unpublish_rota">
+                            <div class="d-flex justify-content-between">
+                              <div class="d-flex flex-column align-items-center justify-content-center col-md-2 date_of_shift_rota">
+                                <div>{{ \Carbon\Carbon::parse($rota_list_data->rota_start_date)->format('D')}} </div>
+                                <div class="">{{ \Carbon\Carbon::parse($rota_list_data->rota_start_date)->format('jS M')}}</div>
+                              </div>
+                              <div class="col-md-10 px-2">
+                                <div class="d-flex justify-content-between align-items-center">
+                                  <div>
+                                    <a href="{{ url('/edit_rota/'.$rota_list_data->id ) }}" class="rota_shift_employee_name">{{ $rota_list_data->rota_name }}</a>
+                                  </div>
+                                  <div class="dropdown">
+                                    <button class=" my-2 d-flex justify-content-center align-items-center three_dot_btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                      <span class="dropbtn">
+                                        <svg width="32" class="dropbtn" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" class="">
+                                          <circle cx="16" class="dropbtn" cy="24" r="2"></circle>
+                                          <circle cx="16" class="dropbtn" cy="16" r="2"></circle>
+                                          <circle cx="16" class="dropbtn" cy="8" r="2"></circle>
+                                        </svg>
+                                      </span>
+                                    </button>
+                                    <div class="dropdown-menu dropdown-content">
+                                      <ul>
+                                          <li>
+                                            <span class="edit-icon dropdown_icon"><i class="fa fa-pencil" aria-hidden="true"></i></span>
+                                            <a href="{{ url('/edit_rota/'.$rota_list_data->id ) }}">Edit</a>
+                                          </li>
+                                          <li>  
+                                            <span class="i-icon dropdown_icon"><i class="fa fa-info-circle" aria-hidden="true"></i></span>
+                                            <a onclick="RotaView(<?=$rota_list_data->id?>,'<?=$rota_list_data->rota_name?>')">View</a>
+                                          </li>
+                                          <li>
+                                            <span class="edit-icon dropdown_icon"><i class="fa fa-pencil" aria-hidden="true"></i></span>
+                                            <a onclick="renamedata(<?=$rota_list_data->id?>,'<?=$rota_list_data->rota_name?>')">Rename</a> 
+                                          </li>
+                                          <li>
+                                            <span class="tick-icon dropdown_icon"><i class="fa fa-check" aria-hidden="true"></i></span>
+                                            <a onclick="publishRotaEmployee(<?=$rota_list_data->id?>,'<?=$rota_list_data->rota_name?>')">Publish</a>
+                                          </li>
+                                          <li>
+                                            <span class="delete-icon dropdown_icon"><i class="fa fa-trash-o" aria-hidden="true"></i></span>
+                                            <a onclick="DeleteRotaEmployee(<?=$rota_list_data->id?>,'<?=$rota_list_data->rota_name?>')" class="delete_btn">Delete</a>
+                                          </li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="d-flex">
+                                  <div class="pe-3">Total:
+                                  <?php 
+                                         $rota_start_end_time = App\RotaShift::where('rota_id', $rota_list_data->id)->where('status', 1)->get();
+                                         $hours = 0; $minutes = 0;
+                                         foreach($rota_start_end_time as $rota_start_end_times){
+                                             $startTime = \Carbon\Carbon::parse($rota_start_end_times->shift_start_time);
+                                             $finishTime = \Carbon\Carbon::parse($rota_start_end_times->shift_end_time);
+                                             $duration = $finishTime->diff($startTime)->format('%H:%i:%s');
+                                             $totaltime = \Carbon\Carbon::parse($duration)->addMinutes($rota_start_end_times->break)->format('h:i:m');
+                                             $hours += \Carbon\Carbon::parse($totaltime)->format('h');
+                                             $minutes += \Carbon\Carbon::parse($totaltime)->format('i');
+                                         }
+                                         
+                                         $hour = date('G', mktime($hours, $minutes));
+                                         $minute = date('i', mktime($hours, $minutes));
+                                         echo $hour." hrs ".$minute." mins";
+                                    ?> (Incl. breaks)</div>
+                                  <div class="order-1">{{ $rota_list_data->rota_duration }} days<span class="px-2"></span><span>{{ \App\RotaAssignEmployee::where(['rota_id' => $rota_list_data->id, 'status'=> 1])->count() }} employees</span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        @endif
+                      @endforeach
+                    </div>
                     <div class="col-lg-12">
                       <div class="no-rate-see">
                         <h2>No rotas to see here yet...</h2>
@@ -276,7 +414,7 @@
                           <div class="d-flex justify-content-between">
                             <div class="d-flex align-items-center">
                               <h4>Published rotas</h4>
-                              <span class="no_of_rota_publish" id="old_publish_rota_count"></span>
+                              <span class="no_of_rota_publish">{{ $old_publish_rota_count }}</span>
                             </div>
                             <div class="toggle_btns">
                               <button class="view_all_btn" onclick="showRotaPublish()" id="viewPublish" style="display: none;">View all</button>
@@ -285,8 +423,80 @@
                           </div>
                           <div class="content_about_publish" id="beforePublishRota">
                             <h5>In progress</h5>
-                              <div id="old_publish_rota">
-                              </div>
+                              @foreach($old_rota as $rota_list_data)
+                                @if($rota_list_data->status == 1)
+                                  <div class="parent_div my-2" id="old_publish_rota">
+                                    <div class="d-flex justify-content-between">
+                                      <div class="d-flex flex-column align-items-center justify-content-center col-md-2 date_of_shift_rota">
+                                        <div>{{ \Carbon\Carbon::parse($rota_list_data->rota_start_date)->format('D')}} </div>
+                                        <div class="">{{ \Carbon\Carbon::parse($rota_list_data->rota_start_date)->format('jS M')}}</div>
+                                      </div>
+                                      <div class="col-md-10 px-2">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                          <div>
+                                            <a href="./timeline-view.html" class="rota_shift_employee_name">{{ $rota_list_data->rota_name }}</a>
+                                          </div>
+                                          <div class="dropdown">
+                                            <button class=" my-2 d-flex justify-content-center align-items-center three_dot_btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                              <span class="dropbtn">
+                                                <svg width="32" class="dropbtn" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+                                                  <circle cx="16" class="dropbtn" cy="24" r="2"></circle>
+                                                  <circle cx="16" class="dropbtn" cy="16" r="2"></circle>
+                                                  <circle cx="16" class="dropbtn" cy="8" r="2"></circle>
+                                                </svg>
+                                              </span>
+                                            </button>
+                                            <div class="dropdown-menu dropdown-content">
+                                              <ul>
+                                                  <li>
+                                                    <span class="edit-icon dropdown_icon"><i class="fa fa-pencil" aria-hidden="true"></i></span>
+                                                    <a href="{{ url('/edit_rota/'.$rota_list_data->id ) }}">Edit</a>
+                                                  </li>
+                                                  <li>  
+                                                    <span class="i-icon dropdown_icon"><i class="fa fa-info-circle" aria-hidden="true"></i></span>
+                                                    <a onclick="RotaView(<?=$rota_list_data->id?>,'<?=$rota_list_data->rota_name?>')">View</a>
+                                                  </li>
+                                                  <li>
+                                                    <span class="edit-icon dropdown_icon"><i class="fa fa-pencil" aria-hidden="true"></i></span>
+                                                    <a onclick="renamedata(<?=$rota_list_data->id?>,'<?=$rota_list_data->rota_name?>')">Rename</a> 
+                                                  </li>
+                                                  <li>
+                                                    <span class="tick-icon dropdown_icon"><i class="fa fa-check" aria-hidden="true"></i></span>
+                                                    <a onclick="unpublishRotaEmployee(<?=$rota_list_data->id?>,'<?=$rota_list_data->rota_name?>')">Unpublish</a>
+                                                  </li>
+                                                  <li>
+                                                    <span class="delete-icon dropdown_icon"><i class="fa fa-trash-o" aria-hidden="true"></i></span>
+                                                    <a onclick="DeleteRotaEmployee(<?=$rota_list_data->id?>,'<?=$rota_list_data->rota_name?>')" class="delete_btn">Delete</a>
+                                                  </li>
+                                                </ul>
+                                            </div>
+                                          </div>
+                                              <!-- Button trigger modal -->
+                                        </div>
+                                        <div class="d-flex">
+                                          <div class="pe-3">Total: <?php 
+                                          $rota_start_end_time = App\RotaShift::where('rota_id', $rota_list_data->id)->where('status', 1)->get();
+                                          $hours = 0; $minutes = 0;
+                                          foreach($rota_start_end_time as $rota_start_end_times){
+                                              $startTime = \Carbon\Carbon::parse($rota_start_end_times->shift_start_time);
+                                              $finishTime = \Carbon\Carbon::parse($rota_start_end_times->shift_end_time);
+                                              $duration = $finishTime->diff($startTime)->format('%H:%i:%s');
+                                              $totaltime = \Carbon\Carbon::parse($duration)->addMinutes($rota_start_end_times->break)->format('h:i:m');
+                                              $hours += \Carbon\Carbon::parse($totaltime)->format('h');
+                                              $minutes += \Carbon\Carbon::parse($totaltime)->format('i');
+                                          }
+                                          
+                                          $time = date('G:i', mktime($hours, $minutes));
+                                          echo $time;
+                                      ?>
+                                      (Incl. breaks)</div>
+                                          <div class="order-1">{{ $rota_list_data->rota_duration }} days<span class="px-2"></span><span>{{ \App\RotaAssignEmployee::where(['rota_id' => $rota_list_data->id, 'status'=> 1])->count() }} employees</span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                @endif
+                              @endforeach
                           </div>
                             <p class="pb-8">Rotas that are currently active and in progress will appear here.</p>
                           </div>
@@ -295,7 +505,7 @@
                           <div class="d-flex justify-content-between">
                             <div class="d-flex align-items-center">
                               <h4>Unpublished rotas</h4>
-                              <span class="no_of_rota_publish" id="old_unpublish_rota_count"></span>
+                              <span class="no_of_rota_publish">{{ $old_unpublish_rota_count }}</span>
                             </div>
                             <div class="toggle_btns">
                               <button class="view_all_btn" onclick="unPublishview()" id="viewUnpublish" style="display: none;">View all</button>
@@ -304,8 +514,78 @@
                           </div>
                         </div>
                         <div class="col-md-12 col-lg-12" id="unpublish_rota_content_detail">
-                              <div  id="old_unpublish_rota">
+                          @foreach($old_rota as $rota_list_data)
+                            @if($rota_list_data->status == 0)
+                              <div class="parent_div my-2" id="old_unpublish_rota">
+                                <div class="d-flex justify-content-between">
+                                  <div class="d-flex flex-column align-items-center justify-content-center col-md-2 date_of_shift_rota">
+                                    <div>{{ \Carbon\Carbon::parse($rota_list_data->rota_start_date)->format('D')}} </div>
+                                    <div class="">{{ \Carbon\Carbon::parse($rota_list_data->rota_start_date)->format('jS M') }}</div>
+                                  </div>
+                                  <div class="col-md-10 px-2">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                      <div>
+                                        <a href="{{ url('/edit_rota/'.$rota_list_data->id ) }}" class="rota_shift_employee_name">{{ $rota_list_data->rota_name }}</a>
+                                      </div>
+                                      <div class="dropdown">
+                                        <button class=" my-2 d-flex justify-content-center align-items-center three_dot_btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                          <span class="dropbtn">
+                                            <svg width="32" class="dropbtn" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+                                              <circle cx="16" class="dropbtn" cy="24" r="2"></circle>
+                                              <circle cx="16" class="dropbtn" cy="16" r="2"></circle>
+                                              <circle cx="16" class="dropbtn" cy="8" r="2"></circle>
+                                            </svg>
+                                          </span>
+                                        </button>
+                                        <div class="dropdown-menu dropdown-content">
+                                          <ul>
+                                              <li>
+                                                <span class="edit-icon dropdown_icon"><i class="fa fa-pencil" aria-hidden="true"></i></span>
+                                                <a href="{{ url('/edit_rota/'.$rota_list_data->id ) }}">Edit</a>
+                                              </li>
+                                              <li>  
+                                                <span class="i-icon dropdown_icon"><i class="fa fa-info-circle" aria-hidden="true"></i></span>
+                                                <a onclick="RotaView(<?=$rota_list_data->id?>,'<?=$rota_list_data->rota_name?>')">View</a>
+                                              </li>
+                                              <li>
+                                                <span class="edit-icon dropdown_icon"><i class="fa fa-pencil" aria-hidden="true"></i></span>
+                                                <a onclick="renamedata(<?=$rota_list_data->id?>,'<?=$rota_list_data->rota_name?>')">Rename</a> 
+                                              </li>
+                                              <li>
+                                                <span class="tick-icon dropdown_icon"><i class="fa fa-check" aria-hidden="true"></i></span>
+                                                <a onclick="publishRotaEmployee(<?=$rota_list_data->id?>,'<?=$rota_list_data->rota_name?>')">Unpublish</a>
+                                              </li>
+                                              <li>
+                                                <span class="delete-icon dropdown_icon"><i class="fa fa-trash-o" aria-hidden="true"></i></span>
+                                                <a onclick="DeleteRotaEmployee(<?=$rota_list_data->id?>,'<?=$rota_list_data->rota_name?>')" class="delete_btn">Delete</a>
+                                              </li>
+                                            </ul>
+                                        </div>
+                                      </div> 
+                                    </div>
+                                    <div class="d-flex">
+                                      <div class="pe-3">Total: <?php 
+                                          $rota_start_end_time = App\RotaShift::where('rota_id', $rota_list_data->id)->where('status', 1)->get();
+                                          $hours = 0; $minutes = 0;
+                                          foreach($rota_start_end_time as $rota_start_end_times){
+                                              $startTime = \Carbon\Carbon::parse($rota_start_end_times->shift_start_time);
+                                              $finishTime = \Carbon\Carbon::parse($rota_start_end_times->shift_end_time);
+                                              $duration = $finishTime->diff($startTime)->format('%H:%i:%s');
+                                              $totaltime = \Carbon\Carbon::parse($duration)->addMinutes($rota_start_end_times->break)->format('h:i:m');
+                                              $hours += \Carbon\Carbon::parse($totaltime)->format('h');
+                                              $minutes += \Carbon\Carbon::parse($totaltime)->format('i');
+                                          }
+                                          
+                                          $time = date('G:i', mktime($hours, $minutes));
+                                          echo $time;
+                                      ?> (Incl. breaks)</div>
+                                      <div class="order-1">7 days<span class="px-2"></span><span>{{ \App\RotaAssignEmployee::where(['rota_id' => $rota_list_data->id, 'status'=> 1])->count() }} employees</span>
+                                    </div>
+                                  </div>
+                                </div>
                               </div>
+                            @endif
+                          @endforeach
                         </div>
                       </div>
                     <!-- </div> -->
@@ -675,262 +955,18 @@
               data: {_token:token},
               success:function(result){
                   console.log(result);   
-                  console.log(result.active_rota[0]['rota_start_date']);
-                  document.getElementById('active_publish_rota_count').innerHTML = result.active_publish_rota_count;
-                  document.getElementById('active_unpublish_rota_count').innerHTML = result.active_unpublish_rota_count;
-                  document.getElementById('old_publish_rota_count').innerHTML = result.old_publish_rota_count;
-                  document.getElementById('old_unpublish_rota_count').innerHTML = result.old_unpublish_rota_count;
-                  
-                  for (let index = 0; index < result.active_rota.length; index++) {
-                    if(result.active_rota[index]['status'] === 1){
-                      document.querySelector('#new_publish_rota').insertAdjacentHTML(
-                      'afterbegin',
-                          `  <div  class="parent_div my-2">
-                              <div class="d-flex justify-content-between">
-                                <div class="d-flex flex-column align-items-center justify-content-center col-md-2 date_of_shift_rota">
-                                  <div>`+moment(result.active_rota[index]['rota_start_date']).format('ddd')+`</div>
-                                  <div class="">`+moment(result.active_rota[index]['rota_start_date']).format('Do MMM ')+`</div>
-                                </div>
-                                <div class="col-md-10 px-2">
-                                  <div class="d-flex justify-content-between align-items-center">
-                                    <div>
-                                      <a href="{{  url('/edit_rota/', `+result.active_rota[index]['id']+` ) }}" class="rota_shift_employee_name">`+result.active_rota[index]['rota_name']+`</a>
-                                    </div>
-                                    <div class="dropdown">
-                                      <button class=" my-2 d-flex justify-content-center align-items-center three_dot_btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <span class="dropbtn">
-                                          <svg width="32" class="dropbtn" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-                                            <circle cx="16" class="dropbtn" cy="24" r="2"></circle>
-                                            <circle cx="16" class="dropbtn" cy="16" r="2"></circle>
-                                            <circle cx="16" class="dropbtn" cy="8" r="2"></circle>
-                                          </svg>
-                                        </span>
-                                      </button>
-                                      <div class="dropdown-menu dropdown-content">
-                                        <ul>
-                                            <li>
-                                              <span class="edit-icon dropdown_icon"><i class="fa fa-pencil" aria-hidden="true"></i></span>
-                                              <a href="{{ url('/edit_rota/',`+result.active_rota[index]['id']+` ) }}">Edit</a>
-                                            </li>
-                                            <li>  
-                                              <span class="i-icon dropdown_icon"><i class="fa fa-info-circle" aria-hidden="true"></i></span>
-                                              <a onclick="RotaView(`+result.active_rota[index]['id']+`,`+result.active_rota[index]['rota_name']+`)">View</a>
-                                            </li>
-                                            <li>
-                                              <span class="edit-icon dropdown_icon"><i class="fa fa-pencil" aria-hidden="true"></i></span>
-                                              <a onclick="renamedata(`+result.active_rota[index]['id']+`,`+result.active_rota[index]['rota_name']+`)">Rename</a> 
-                                            </li>
-                                            <li>
-                                              <span class="tick-icon dropdown_icon"><i class="fa fa-check" aria-hidden="true"></i></span>
-                                              <a onclick="unpublishRotaEmployee(`+result.active_rota[index]['id']+`,`+result.active_rota[index]['rota_name']+`)">Unpublish</a>
-                                            </li>
-                                            <li>
-                                              <span class="delete-icon dropdown_icon"><i class="fa fa-trash" aria-hidden="true"></i></span>
-                                              <a onclick="DeleteRotaEmployee(`+result.active_rota[index]['id']+`,`+result.active_rota[index]['rota_name']+`)" class="delete_btn">Delete</a>
-                                            </li>
-                                        </ul>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div class="d-flex">
-                                    <div class="pe-3">Total:  (Incl. breaks)</div>
-                                    <div class="order-1">`+result.active_rota[index]['rota_duration']+` days<span class="px-2"></span><span>
-                                      <?php $emp1 = \App\RotaAssignEmployee::where(['rota_id' => 1, 'status'=> 1])->count(); echo $emp1; ?> employees</span>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>`   
-                       ); 
-                    }
-                    if(result.active_rota[index]['status'] === 0) {
-                      document.querySelector('#new_unpublish_rota').insertAdjacentHTML(
+                  document.querySelector('#add_emp_record').insertAdjacentHTML(
                         'afterbegin',
-                            `  <div  class="parent_div my-2">
-                                <div class="d-flex justify-content-between">
-                                  <div class="d-flex flex-column align-items-center justify-content-center col-md-2 date_of_shift_rota">
-                                    <div>`+moment(result.active_rota[index]['rota_start_date']).format('ddd')+`</div>
-                                    <div class="">`+moment(result.active_rota[index]['rota_start_date']).format('Do MMM ')+`</div>
-                                  </div>
-                                  <div class="col-md-10 px-2">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                      <div>
-                                        <a href="{{  url('/edit_rota/', `+result.active_rota[index]['id']+` ) }}" class="rota_shift_employee_name">`+result.active_rota[index]['rota_name']+`</a>
-                                      </div>
-                                      <div class="dropdown">
-                                        <button class=" my-2 d-flex justify-content-center align-items-center three_dot_btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                          <span class="dropbtn">
-                                            <svg width="32" class="dropbtn" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-                                              <circle cx="16" class="dropbtn" cy="24" r="2"></circle>
-                                              <circle cx="16" class="dropbtn" cy="16" r="2"></circle>
-                                              <circle cx="16" class="dropbtn" cy="8" r="2"></circle>
-                                            </svg>
-                                          </span>
-                                        </button>
-                                        <div class="dropdown-menu dropdown-content">
-                                          <ul>
-                                              <li>
-                                                <span class="edit-icon dropdown_icon"><i class="fa fa-pencil" aria-hidden="true"></i></span>
-                                                <a href="{{ url('/edit_rota/',`+result.active_rota[index]['id']+` ) }}">Edit</a>
-                                              </li>
-                                              <li>  
-                                                <span class="i-icon dropdown_icon"><i class="fa fa-info-circle" aria-hidden="true"></i></span>
-                                                <a onclick="RotaView(`+result.active_rota[index]['id']+`,`+result.active_rota[index]['rota_name']+`)">View</a>
-                                              </li>
-                                              <li>
-                                                <span class="edit-icon dropdown_icon"><i class="fa fa-pencil" aria-hidden="true"></i></span>
-                                                <a onclick="renamedata(`+result.active_rota[index]['id']+`,`+result.active_rota[index]['rota_name']+`)">Rename</a> 
-                                              </li>
-                                              <li>
-                                                <span class="tick-icon dropdown_icon"><i class="fa fa-check" aria-hidden="true"></i></span>
-                                                <a onclick="unpublishRotaEmployee(`+result.active_rota[index]['id']+`,`+result.active_rota[index]['rota_name']+`)">Unpublish</a>
-                                              </li>
-                                              <li>
-                                                <span class="delete-icon dropdown_icon"><i class="fa fa-trash" aria-hidden="true"></i></span>
-                                                <a onclick="DeleteRotaEmployee(`+result.active_rota[index]['id']+`,`+result.active_rota[index]['rota_name']+`)" class="delete_btn">Delete</a>
-                                              </li>
-                                          </ul>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div class="d-flex">
-                                      <div class="pe-3">Total:  (Incl. breaks)</div>
-                                      <div class="order-1">`+result.active_rota[index]['rota_duration']+` days<span class="px-2"></span><span>
-                                        {{ \App\RotaAssignEmployee::where(['rota_id' => `+result.active_rota[index]['id']+`, 'status'=> 1])->count() }} employees</span>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>`   
-                      );  
-                    }
-                  }  
-                  for (let index = 0; index < result.old_rota.length; index++) {
-                    if(result.old_rota[index]['status'] === 1){
-                      document.querySelector('#new_publish_rota').insertAdjacentHTML(
-                      'afterbegin',
-                          `  <div  class="parent_div my-2">
-                              <div class="d-flex justify-content-between">
-                                <div class="d-flex flex-column align-items-center justify-content-center col-md-2 date_of_shift_rota">
-                                  <div>`+moment(result.active_rota[index]['rota_start_date']).format('ddd')+`</div>
-                                  <div class="">`+moment(result.active_rota[index]['rota_start_date']).format('Do MMM ')+`</div>
-                                </div>
-                                <div class="col-md-10 px-2">
-                                  <div class="d-flex justify-content-between align-items-center">
-                                    <div>
-                                      <a href="{{  url('/edit_rota/', `+result.active_rota[index]['id']+` ) }}" class="rota_shift_employee_name">`+result.active_rota[index]['rota_name']+`</a>
-                                    </div>
-                                    <div class="dropdown">
-                                      <button class=" my-2 d-flex justify-content-center align-items-center three_dot_btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <span class="dropbtn">
-                                          <svg width="32" class="dropbtn" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-                                            <circle cx="16" class="dropbtn" cy="24" r="2"></circle>
-                                            <circle cx="16" class="dropbtn" cy="16" r="2"></circle>
-                                            <circle cx="16" class="dropbtn" cy="8" r="2"></circle>
-                                          </svg>
-                                        </span>
-                                      </button>
-                                      <div class="dropdown-menu dropdown-content">
-                                        <ul>
-                                            <li>
-                                              <span class="edit-icon dropdown_icon"><i class="fa fa-pencil" aria-hidden="true"></i></span>
-                                              <a href="{{ url('/edit_rota/',`+result.active_rota[index]['id']+` ) }}">Edit</a>
-                                            </li>
-                                            <li>  
-                                              <span class="i-icon dropdown_icon"><i class="fa fa-info-circle" aria-hidden="true"></i></span>
-                                              <a onclick="RotaView(`+result.active_rota[index]['id']+`,`+result.active_rota[index]['rota_name']+`)">View</a>
-                                            </li>
-                                            <li>
-                                              <span class="edit-icon dropdown_icon"><i class="fa fa-pencil" aria-hidden="true"></i></span>
-                                              <a onclick="renamedata(`+result.active_rota[index]['id']+`,`+result.active_rota[index]['rota_name']+`)">Rename</a> 
-                                            </li>
-                                            <li>
-                                              <span class="tick-icon dropdown_icon"><i class="fa fa-check" aria-hidden="true"></i></span>
-                                              <a onclick="unpublishRotaEmployee(`+result.active_rota[index]['id']+`,`+result.active_rota[index]['rota_name']+`)">Unpublish</a>
-                                            </li>
-                                            <li>
-                                              <span class="delete-icon dropdown_icon"><i class="fa fa-trash" aria-hidden="true"></i></span>
-                                              <a onclick="DeleteRotaEmployee(`+result.active_rota[index]['id']+`,`+result.active_rota[index]['rota_name']+`)" class="delete_btn">Delete</a>
-                                            </li>
-                                        </ul>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div class="d-flex">
-                                    <div class="pe-3">Total:  (Incl. breaks)</div>
-                                    <div class="order-1">`+result.active_rota[index]['rota_duration']+` days<span class="px-2"></span><span>
-                                      {{ \App\RotaAssignEmployee::where(['rota_id' => `+result.active_rota[index]['id']+`, 'status'=> 1])->count() }} employees</span>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
+                            `<div class="d-flex align-items-center shrink_all">
+                            
                             </div>`   
-                       ); 
-                    }
-                    if(result.old_rota[index]['status'] === 0) {
-                      document.querySelector('#new_unpublish_rota').insertAdjacentHTML(
-                        'afterbegin',
-                            `  <div  class="parent_div my-2">
-                                <div class="d-flex justify-content-between">
-                                  <div class="d-flex flex-column align-items-center justify-content-center col-md-2 date_of_shift_rota">
-                                    <div>`+moment(result.active_rota[index]['rota_start_date']).format('ddd')+`</div>
-                                    <div class="">`+moment(result.active_rota[index]['rota_start_date']).format('Do MMM')+`</div>
-                                  </div>
-                                  <div class="col-md-10 px-2">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                      <div>
-                                        <a href="{{  url('/edit_rota/', `+result.active_rota[index]['id']+` ) }}" class="rota_shift_employee_name">`+result.active_rota[index]['rota_name']+`</a>
-                                      </div>
-                                      <div class="dropdown">
-                                        <button class=" my-2 d-flex justify-content-center align-items-center three_dot_btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                          <span class="dropbtn">
-                                            <svg width="32" class="dropbtn" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-                                              <circle cx="16" class="dropbtn" cy="24" r="2"></circle>
-                                              <circle cx="16" class="dropbtn" cy="16" r="2"></circle>
-                                              <circle cx="16" class="dropbtn" cy="8" r="2"></circle>
-                                            </svg>
-                                          </span>
-                                        </button>
-                                        <div class="dropdown-menu dropdown-content">
-                                          <ul>
-                                              <li>
-                                                <span class="edit-icon dropdown_icon"><i class="fa fa-pencil" aria-hidden="true"></i></span>
-                                                <a href="{{ url('/edit_rota/',`+result.active_rota[index]['id']+` ) }}">Edit</a>
-                                              </li>
-                                              <li>  
-                                                <span class="i-icon dropdown_icon"><i class="fa fa-info-circle" aria-hidden="true"></i></span>
-                                                <a onclick="RotaView(`+result.active_rota[index]['id']+`,`+result.active_rota[index]['rota_name']+`)">View</a>
-                                              </li>
-                                              <li>
-                                                <span class="edit-icon dropdown_icon"><i class="fa fa-pencil" aria-hidden="true"></i></span>
-                                                <a onclick="renamedata(`+result.active_rota[index]['id']+`,`+result.active_rota[index]['rota_name']+`)">Rename</a> 
-                                              </li>
-                                              <li>
-                                                <span class="tick-icon dropdown_icon"><i class="fa fa-check" aria-hidden="true"></i></span>
-                                                <a onclick="unpublishRotaEmployee(`+result.active_rota[index]['id']+`,`+result.active_rota[index]['rota_name']+`)">Unpublish</a>
-                                              </li>
-                                              <li>
-                                                <span class="delete-icon dropdown_icon"><i class="fa fa-trash" aria-hidden="true"></i></span>
-                                                <a onclick="DeleteRotaEmployee(`+result.active_rota[index]['id']+`,`+result.active_rota[index]['rota_name']+`)" class="delete_btn">Delete</a>
-                                              </li>
-                                          </ul>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div class="d-flex">
-                                      <div class="pe-3">Total:  (Incl. breaks)</div>
-                                      <div class="order-1">`+result.active_rota[index]['rota_duration']+` days<span class="px-2"></span><span>
-                                        {{ \App\RotaAssignEmployee::where(['rota_id' => `+result.active_rota[index]['id']+`, 'status'=> 1])->count() }} employees</span>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>`   
-                      );  
-                    }
-                  }  
+                        );    
               }
           });
+
+
+
+      
       const source = document.getElementById('rota_name_search');
       const result = document.getElementById('result');
 

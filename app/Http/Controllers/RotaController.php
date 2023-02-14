@@ -20,6 +20,28 @@ class RotaController extends Controller
         // return view('welcome');
         $leave['sickness'] = Staffleaves::where('is_deleted', 1 )->where('leave_status', 1)->where('leave_type', 2)->where('user_id', 15)->count();
         $leave['lateness'] = Staffleaves::where('is_deleted', 1 )->where('leave_status', 1)->where('leave_type', 3)->where('user_id', 15)->count();
+
+        $date_min_three = Carbon::parse('Now -3 days')->format('Y-m-d');
+        $leave['total_leave_min_three'] =  Staffleaves::where('start_date', '<=', $date_min_three)->where('end_date', '>=', $date_min_three)->where('is_deleted', 1)->where('leave_status', 1)->orWhere('start_date', '=', $date_min_three)->count();
+
+        $date_min_two = Carbon::parse('Now -2 days')->format('Y-m-d');
+        $leave['total_leave_min_two'] =  Staffleaves::where('start_date', '<=', $date_min_two)->where('end_date', '>=', $date_min_two)->where('is_deleted', 1)->orWhere('start_date', '=', $date_min_two)->where('leave_status', 1)->count();
+
+        $date_min_one = Carbon::parse('Now -1 days')->format('Y-m-d');
+        $leave['total_leave_min_one'] =  Staffleaves::where('start_date', '<=', $date_min_one)->where('end_date', '>=', $date_min_one)->where('is_deleted', 1)->orWhere('start_date', '=', $date_min_one)->where('leave_status', 1)->count();
+
+        $date_current = Carbon::now()->format('Y-m-d');
+        $leave['total_leave_current'] =  Staffleaves::where('start_date', '<=', $date_current)->where('end_date', '>=', $date_current)->where('is_deleted', 1)->where('leave_status', 1)->orWhere('start_date', '=', $date_current)->count();
+
+        $date_plus_one = Carbon::parse('Now +1 days')->format('Y-m-d');
+        $leave['total_leave_plus_one'] =  Staffleaves::where('start_date', '<=', $date_plus_one)->where('end_date', '>=', $date_plus_one)->where('is_deleted', 1)->orWhere('start_date', '=', $date_plus_one)->where('leave_status', 1)->count();
+
+        $date_plus_two = Carbon::parse('Now +2 days')->format('Y-m-d');
+        $leave['total_leave_plus_two'] =  Staffleaves::where('start_date', '<=', $date_plus_two)->where('end_date', '>=', $date_plus_two)->where('is_deleted', 1)->orWhere('start_date', '=', $date_plus_two)->where('leave_status', 1)->count();
+
+        $date_plus_three = Carbon::parse('Now +3 days')->format('Y-m-d');
+        $leave['total_leave_plus_three'] =  Staffleaves::where('start_date', '<=', $date_plus_three)->where('end_date', '>=', $date_plus_three)->where('is_deleted', 1)->orWhere('start_date', '=', $date_plus_three)->where('leave_status', 1)->count();
+
         
         return view('rotaStaff.StaffDashboard', ['sidebar' => 'dashborad'], $leave);
     }
@@ -549,14 +571,66 @@ class RotaController extends Controller
 
         $data['annual'] =  Staffleaves::where('start_date', '<=', $date)->where('end_date', '>=', $date)->where('leave_type', 1)->where('is_deleted', 1)->where('leave_status', 1)->count();
         $data['sickness'] = Staffleaves::where('start_date', '<=', $date)->where('end_date', '>=', $date)->where('leave_type', 2)->where('is_deleted', 1)->where('leave_status', 1)->count();
-        $data['lateness'] =  Staffleaves::where('start_date', '<=', $date)->where('end_date', '>=', $date)->where('leave_type', 3)->where('is_deleted', 1)->where('leave_status', 1)->count();
-        $data['other'] =  Staffleaves::where('start_date', '<=', $date)->where('end_date', '>=', $date)->where('leave_type', 3)->where('is_deleted', 1)->where('leave_status', 4)->count();
+        $data['lateness'] =  Staffleaves::where('start_date', '=', $date)->where('leave_type', 3)->where('is_deleted', 1)->where('leave_status', 1)->count();
+        $data['other'] =  Staffleaves::where('start_date', '<=', $date)->where('end_date', '>=', $date)->where('leave_type', 4)->where('is_deleted', 1)->where('leave_status', 1)->count();
 
         echo json_encode($data);
     }
 
     function get_record_of_rota(Request $request){
         $data = Rota::where('deleted_status', 1)->orWhere('rota_name', 'like', '%' . $request->search_name . '%')->get();
+        echo json_encode($data);
+    }
+
+    function get_all_rota_data(){
+        $current_month =  Carbon::now()->format('m');
+        $current_year = Carbon::now()->format('Y');
+
+        $previous_month_data = Carbon::now()->endOfMonth()->subMonth()->toDateString();
+        $priormonth = date ('m', strtotime ( '-1 month' , strtotime ( $previous_month_data )));
+        $prioryear = date('Y', strtotime($previous_month_data));
+
+        $rota = Rota::where('deleted_status', 1)->orderBy('rota_name', 'DSC')->get(); 
+        $arr = array();
+        $active_publish_rota= 0;
+        $active_unpublish_rota= 0;
+        $old_publish_rota = 0;
+        $old_unpublish_rota = 0;
+        $old = array();
+        foreach($rota as $rotas){
+            $convert_date = strtotime($rotas->created_at);
+            $month = date('m',$convert_date);
+            $year = date('Y',$convert_date);
+            if($current_year == $year){
+                if( $current_month == $month){
+                    $arr[] = $rotas;
+                    if($rotas->status === 1){
+                        $active_publish_rota++;
+                    } if($rotas->status === 0) {
+                        $active_unpublish_rota++;
+                    }
+                }
+            }
+            if($prioryear == $year){
+                if( $priormonth == $month){
+                    $old[] = $rotas;
+                    if($rotas->status === 1){
+                        $old_publish_rota++;
+                    } if($rotas->status === 0) {
+                        $old_unpublish_rota++;
+                    }
+                }
+            }
+           
+        }         
+        $data['active_rota'] =  $arr;
+        $data['old_rota'] =  $old; 
+        $data['sidebar'] = 'rota';
+        $data['active_publish_rota_count'] = $active_publish_rota;
+        $data['active_unpublish_rota_count'] = $active_unpublish_rota;
+        $data['old_publish_rota_count'] = $old_publish_rota;
+        $data['old_unpublish_rota_count'] = $old_unpublish_rota;
+
         echo json_encode($data);
     }
 }

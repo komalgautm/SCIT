@@ -9,6 +9,7 @@
                                             All Rota</span> </a> > {{ $rota_data->rota_name}} </p>
                                         <h3>{{ $rota_data->rota_name}}</h3>
                                     </div>
+                                    <input type="hidden" value="{{ $rota_data->id }}" id="new_rota">
                                     <div class="d-flex justify-content-between">
                                         <div class="date-info">
                                             <p>{{ date("D j M", strtotime($rota_data->rota_start_date)) }} - {{ date("D j M", strtotime($rota_data->rota_end_date)) }} | {{ $rota_data->rota_duration }} days | <span id="shift_count1">0</span> staff members</p>
@@ -208,7 +209,7 @@
                                                         </div>
                                                         <div class="add-shift-btn">
                                                             <!-- Button trigger modal -->
-                                                            <button type="button" class="modal-btn" onclick="view_shift_model('<?=$date->format('l d F')?>','<?=$date->format('D j M')?>')"> Add shift </button>
+                                                            <button type="button" class="modal-btn" onclick="view_shift_model('<?=$date->format('l d F')?>','<?=$date->format('D j M')?>', <?=$i?>)"> Add shift </button>
 
                                                             <!-- Modal -->
                                                           
@@ -278,7 +279,7 @@
                                                         <div class="hour_box" style="width: calc(4.16667%);">
                                                         </div>
                                                         <!-- Button shift modal -->
-                                                        <button type="button" class="shift_timing_btn" onclick="view_user_data(<?php echo $user_data[0]['id'] ?>,`<?php echo $user_data[0]['name']; ?>`)"style="width: `+hours*4.16667+`%;  left: `+hours*4.16667+`%;" style="sdisplay: none;" data-testid="Shift card" style="width: 33.3333%; left: 37.5%;">
+                                                        <button type="button" class="shift_timing_btn" onclick="view_user_data(<?php echo $shift_id; ?>,`<?php echo $user_data[0]['id']; ?>`)"style="width: `+hours*4.16667+`%;  left: `+hours*4.16667+`%;" style="sdisplay: none;" data-testid="Shift card" style="width: 33.3333%; left: 37.5%;">
                                                             <div class="d-flex align-items-center">
                                                                 <div class="">
                                                                     <div class="name_of_member">
@@ -625,7 +626,7 @@
     <!-- shift modal end here -->
     @include('rotaStaff.components.footer')
     <script>
-             function renamedata(id,name, status){
+        function renamedata(id,name, status){
             $('#rota_name_model').text(name);
             $('#rota_id').val(id);
             $('#rota_status').val(status);
@@ -648,7 +649,6 @@
                             } else {
                                 $('#add_employess_for_edit').append("<option value='" + result[i]['id'] + "'>" + result[i]['name'] + "</option>");
                             }
-                          
                         }
                     }
                 });
@@ -683,7 +683,7 @@
             $('#exampleModalShiftModal').modal('show'); 
         }
 
-        function view_shift_model(date1, date2){
+        function view_shift_model(date1, date2, id){
             var token = "<?=csrf_token()?>";
             $.ajax({
                     url:"{{ url('/get-all-users') }}",    
@@ -706,7 +706,15 @@
                         }
                     }
                 });
-            $('#exampleModalAddShift').modal('show');
+                $("#form1").css("display","block")
+                $('#form1select').trigger("reset");
+                document.getElementById('rota_shift_day_show').innerHTML= date1;
+                document.getElementById('assign_emp_date').innerHTML= date2;
+                document.getElementById('show_shift_date').innerHTML= date2;
+                $('#shiftmodelid').val(id);
+                $('#rota_shift_day_date').val(date1);
+                $('#exampleModalAddShift').modal('show'); 
+                // $('#exampleModalAddShift').modal('show');
         }
         $(document).ready(function(){
             $('#next4').on('click', function(){
@@ -839,7 +847,8 @@
                             document.getElementById('shift_count1').innerHTML =  result.user_name.length; 
                         }
                     });
-                    $('#exampleModalAddShift').modal('hide'); 
+                    location.reload();
+                    // $('#exampleModalAddShift').modal('hide'); 
             });
             $('#publish_unpublish_btn').on('click', function(){
                 var rota_id = $('#rota_id').val();
@@ -872,8 +881,7 @@
                     url:"{{ url('/update-shift-data') }}",    
                     type: "post",    
                     dataType: 'json',
-                    data: {edit_rota_id: edit_rota_id, edit_shift_id: edit_shift_id, update_user_id: update_user_id, updtate_date_of_shift: updtate_date_of_shift, update_shift_start_time: update_shift_start_time, update_shift_end_time:update_shift_end_time, update_break: update_break, description: description,
-                        assigned_user_id: assigned_user_id, rota_shift_id:rota_shift_id, _token:token},
+                    data: {edit_rota_id: edit_rota_id, edit_shift_id: edit_shift_id, update_user_id: update_user_id, updtate_date_of_shift: updtate_date_of_shift, update_shift_start_time: update_shift_start_time, update_shift_end_time:update_shift_end_time, update_break: update_break, description: description,assigned_user_id: assigned_user_id, rota_shift_id:rota_shift_id, _token:token},
                     success:function(result){
                         console.log(result);
                         if(result === 1){

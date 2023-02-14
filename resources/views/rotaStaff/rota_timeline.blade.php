@@ -550,6 +550,7 @@
     <script>
 
         function view_user_data(shift_id,user_id){
+            alert(shift_id);
             var token = "<?=csrf_token()?>";
             var rota_id =$('#new_rota').val();
             $.ajax({
@@ -758,9 +759,7 @@
                                     fname = name.charAt(0);
                                     shortname = fname;
                                 }
-                                
-                           
-                                    document.querySelector('#show_user_record'+shiftmodelid).insertAdjacentHTML(
+                                document.querySelector('#show_user_record'+shiftmodelid).insertAdjacentHTML(
                                     'afterbegin',
                                     `<div class="w_full" style="">
                                             <div class="hour_box" style="width: calc(4.16667%);">
@@ -831,10 +830,6 @@
                                             <!-- Modal -->
                                         </div>`   
                                     );  
-                                    
-                              
-                                
-                                
                             }
                             document.getElementById('shift_count').innerHTML =  result.user_name.length; 
                             document.getElementById('shift_count1').innerHTML =  result.user_name.length; 
