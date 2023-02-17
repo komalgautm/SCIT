@@ -116,7 +116,8 @@ class RotaController extends Controller
         // Rota::where('rota_name', $request->)->get();
         $date = $request->start_date;
         $date = strtotime($date);
-        $date = strtotime("+".(int)$request->rotaPeriodLength." day", $date);
+        $last_date = $request->rotaPeriodLength-1;
+        $date = strtotime("+".(int)$last_date." day", $date);
         $date = date('Y-m-d', $date);
         $rota_data = array(
             'user_id' => 15,

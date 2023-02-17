@@ -845,13 +845,13 @@
                           `  <div  class="parent_div my-2">
                               <div class="d-flex justify-content-between">
                                 <div class="d-flex flex-column align-items-center justify-content-center col-md-2 date_of_shift_rota">
-                                  <div>`+moment(result.active_rota[index]['rota_start_date']).format('ddd')+`</div>
-                                  <div class="">`+moment(result.active_rota[index]['rota_start_date']).format('Do MMM ')+`</div>
+                                  <div>`+moment(result.old_rota[index]['rota_start_date']).format('ddd')+`</div>
+                                  <div class="">`+moment(result.old_rota[index]['rota_start_date']).format('Do MMM ')+`</div>
                                 </div>
                                 <div class="col-md-10 px-2">
                                   <div class="d-flex justify-content-between align-items-center">
                                     <div>
-                                      <a href="{{  url('/edit_rota/', `+result.active_rota[index]['id']+` ) }}" class="rota_shift_employee_name">`+result.active_rota[index]['rota_name']+`</a>
+                                      <a href="{{  url('/edit_rota/', `+result.old_rota[index]['id']+` ) }}" class="rota_shift_employee_name">`+result.old_rota[index]['rota_name']+`</a>
                                     </div>
                                     <div class="dropdown">
                                       <button class=" my-2 d-flex justify-content-center align-items-center three_dot_btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -867,23 +867,23 @@
                                         <ul>
                                             <li>
                                               <span class="edit-icon dropdown_icon"><i class="fa fa-pencil" aria-hidden="true"></i></span>
-                                              <a href="{{ url('/edit_rota/',`+result.active_rota[index]['id']+` ) }}">Edit</a>
+                                              <a href="{{ url('/edit_rota/',`+result.old_rota[index]['id']+` ) }}">Edit</a>
                                             </li>
                                             <li>  
                                               <span class="i-icon dropdown_icon"><i class="fa fa-info-circle" aria-hidden="true"></i></span>
-                                              <a onclick="RotaView(`+result.active_rota[index]['id']+`,`+result.active_rota[index]['rota_name']+`)">View</a>
+                                              <a onclick="RotaView(`+result.old_rota[index]['id']+`,`+result.old_rota[index]['rota_name']+`)">View</a>
                                             </li>
                                             <li>
                                               <span class="edit-icon dropdown_icon"><i class="fa fa-pencil" aria-hidden="true"></i></span>
-                                              <a onclick="renamedata(`+result.active_rota[index]['id']+`,`+result.active_rota[index]['rota_name']+`)">Rename</a> 
+                                              <a onclick="renamedata(`+result.old_rota[index]['id']+`,`+result.old_rota[index]['rota_name']+`)">Rename</a> 
                                             </li>
                                             <li>
                                               <span class="tick-icon dropdown_icon"><i class="fa fa-check" aria-hidden="true"></i></span>
-                                              <a onclick="unpublishRotaEmployee(`+result.active_rota[index]['id']+`,`+result.active_rota[index]['rota_name']+`)">Unpublish</a>
+                                              <a onclick="unpublishRotaEmployee(`+result.old_rota[index]['id']+`,`+result.old_rota[index]['rota_name']+`)">Unpublish</a>
                                             </li>
                                             <li>
                                               <span class="delete-icon dropdown_icon"><i class="fa fa-trash" aria-hidden="true"></i></span>
-                                              <a onclick="DeleteRotaEmployee(`+result.active_rota[index]['id']+`,`+result.active_rota[index]['rota_name']+`)" class="delete_btn">Delete</a>
+                                              <a onclick="DeleteRotaEmployee(`+result.old_rota[index]['id']+`,`+result.old_rota[index]['rota_name']+`)" class="delete_btn">Delete</a>
                                             </li>
                                         </ul>
                                       </div>
@@ -891,8 +891,8 @@
                                   </div>
                                   <div class="d-flex">
                                     <div class="pe-3">Total:  (Incl. breaks)</div>
-                                    <div class="order-1">`+result.active_rota[index]['rota_duration']+` days<span class="px-2"></span><span>
-                                      {{ \App\RotaAssignEmployee::where(['rota_id' => `+result.active_rota[index]['id']+`, 'status'=> 1])->count() }} employees</span>
+                                    <div class="order-1">`+result.old_rota[index]['rota_duration']+` days<span class="px-2"></span><span>
+                                      {{ \App\RotaAssignEmployee::where(['rota_id' => `+result.old_rota[index]['id']+`, 'status'=> 1])->count() }} employees</span>
                                     </div>
                                   </div>
                                 </div>
@@ -906,13 +906,13 @@
                             `  <div  class="parent_div my-2">
                                 <div class="d-flex justify-content-between">
                                   <div class="d-flex flex-column align-items-center justify-content-center col-md-2 date_of_shift_rota">
-                                    <div>`+moment(result.active_rota[index]['rota_start_date']).format('ddd')+`</div>
-                                    <div class="">`+moment(result.active_rota[index]['rota_start_date']).format('Do MMM')+`</div>
+                                    <div>`+moment(result.old_rota[index]['rota_start_date']).format('ddd')+`</div>
+                                    <div class="">`+moment(result.old_rota[index]['rota_start_date']).format('Do MMM')+`</div>
                                   </div>
                                   <div class="col-md-10 px-2">
                                     <div class="d-flex justify-content-between align-items-center">
                                       <div>
-                                        <a href="{{  url('/edit_rota/', `+result.active_rota[index]['id']+` ) }}" class="rota_shift_employee_name">`+result.active_rota[index]['rota_name']+`</a>
+                                        <a href="{{  url('/edit_rota/', `+result.old_rota[index]['id']+` ) }}" class="rota_shift_employee_name">`+result.old_rota[index]['rota_name']+`</a>
                                       </div>
                                       <div class="dropdown">
                                         <button class=" my-2 d-flex justify-content-center align-items-center three_dot_btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -928,23 +928,23 @@
                                           <ul>
                                               <li>
                                                 <span class="edit-icon dropdown_icon"><i class="fa fa-pencil" aria-hidden="true"></i></span>
-                                                <a href="{{ url('/edit_rota/',`+result.active_rota[index]['id']+` ) }}">Edit</a>
+                                                <a href="{{ url('/edit_rota/',`+result.old_rota[index]['id']+` ) }}">Edit</a>
                                               </li>
                                               <li>  
                                                 <span class="i-icon dropdown_icon"><i class="fa fa-info-circle" aria-hidden="true"></i></span>
-                                                <a onclick="RotaView(`+result.active_rota[index]['id']+`,`+result.active_rota[index]['rota_name']+`)">View</a>
+                                                <a onclick="RotaView(`+result.old_rota[index]['id']+`,`+result.old_rota[index]['rota_name']+`)">View</a>
                                               </li>
                                               <li>
                                                 <span class="edit-icon dropdown_icon"><i class="fa fa-pencil" aria-hidden="true"></i></span>
-                                                <a onclick="renamedata(`+result.active_rota[index]['id']+`,`+result.active_rota[index]['rota_name']+`)">Rename</a> 
+                                                <a onclick="renamedata(`+result.old_rota[index]['id']+`,`+result.old_rota[index]['rota_name']+`)">Rename</a> 
                                               </li>
                                               <li>
                                                 <span class="tick-icon dropdown_icon"><i class="fa fa-check" aria-hidden="true"></i></span>
-                                                <a onclick="unpublishRotaEmployee(`+result.active_rota[index]['id']+`,`+result.active_rota[index]['rota_name']+`)">Unpublish</a>
+                                                <a onclick="unpublishRotaEmployee(`+result.old_rota[index]['id']+`,`+result.old_rota[index]['rota_name']+`)">Unpublish</a>
                                               </li>
                                               <li>
                                                 <span class="delete-icon dropdown_icon"><i class="fa fa-trash" aria-hidden="true"></i></span>
-                                                <a onclick="DeleteRotaEmployee(`+result.active_rota[index]['id']+`,`+result.active_rota[index]['rota_name']+`)" class="delete_btn">Delete</a>
+                                                <a onclick="DeleteRotaEmployee(`+result.old_rota[index]['id']+`,`+result.old_rota[index]['rota_name']+`)" class="delete_btn">Delete</a>
                                               </li>
                                           </ul>
                                         </div>
@@ -952,8 +952,8 @@
                                     </div>
                                     <div class="d-flex">
                                       <div class="pe-3">Total:  (Incl. breaks)</div>
-                                      <div class="order-1">`+result.active_rota[index]['rota_duration']+` days<span class="px-2"></span><span>
-                                        {{ \App\RotaAssignEmployee::where(['rota_id' => `+result.active_rota[index]['id']+`, 'status'=> 1])->count() }} employees</span>
+                                      <div class="order-1">`+result.old_rota[index]['rota_duration']+` days<span class="px-2"></span><span>
+                                        {{ \App\RotaAssignEmployee::where(['rota_id' => `+result.old_rota[index]['id']+`, 'status'=> 1])->count() }} employees</span>
                                       </div>
                                     </div>
                                   </div>
