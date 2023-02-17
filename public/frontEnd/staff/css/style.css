@@ -1023,6 +1023,13 @@ p.next {
     margin: 15px 0px 16px 0px;
 }
 
+.active-rots-slt-from .filter_btn {
+    margin-top: 30px;
+    padding: 5px 10px;
+    color: #1f86b2b0;
+    font-weight: 500;
+}
+
 .slider-bar-post-content p {
     font-size: 14px;
     line-height: 22px;

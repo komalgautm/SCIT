@@ -173,8 +173,11 @@
                           <div class="col-lg-3 col-md-3">
                             <input type="text" class="form-control form-select" id="rota_name_search" placeholder="Rota name...">
                           </div>
+                          <div class="col-md-3 col-lg-3">
+                            <button type="button" class="filter_btn">Clear all filter</button>
+                          </div>
                           <div class="col-lg-3 col-md-3">
-                              <select name="sortBy">
+                              <select name="sortBy" class="form-select fotm-control">
                                 <option value="Name (A-Z)">Name (A-Z)</option>
                                 <option value="Name (Z-A)">Name (Z-A)</option>
                                 <option value="Start date (Newest first)">Start date (Newest first)</option>
@@ -271,6 +274,36 @@
                     </div>
                     </div>
                     <div class="tab-pane fade" id="oldrotas" role="tabpanel" aria-labelledby="oldrotas-tab">
+                    <form class="active-rots-slt-from">
+                        <div class="row">
+                          <div class="col-lg-9">
+                            <h3>Old rotas</h3>
+                          </div>
+                          <div class="col-lg-3 col-md-3">
+                            <h4><a href="#">Create new Rota</a></h4>
+                          </div>
+                          <div class="col-lg-3 col-md-3">
+                            <input type="date" placeholder="Select range..." class="form-control">
+                          </div>
+                          <div class="col-lg-3 col-md-3">
+                            <input type="text" class="form-control" placeholder="Rota name...">
+                          </div>
+                          <div class="col-md-3">
+                            <button type="button" class="filter_btn">Clear all filter</button>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-3 col-lg-3">
+                              <select name="" class="form-select fotm-control" id="">
+                                <option value="">Name (A-Z)</option>
+                                <option value="">Name (Z-A )</option>
+                                <option value="">Start date (Newest first)</option>
+                                <option value="">Start date (Oldest first)</option>
+                              </select>
+                            </div>
+                            <p class="mt-2">Rotas which have ended are shown here.</p>
+                          </div>
+                        </div>
+                      </form>
                       <div class="row">
                         <div class="col-md-12 my-5 publish_rota_content">
                           <div class="d-flex justify-content-between">
